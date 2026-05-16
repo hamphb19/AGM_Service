@@ -1,0 +1,23 @@
+# Build artifacts
+\bin
+\obj
+
+# Visual Studio
+\.vs
+*.user
+*.suo
+*.userprefs
+
+# NuGet
+packages
+
+# Test results
+TestResults
+
+# Logs
+*.log
+
+# Azure DevOps workspace metadata
+\$tf
+\.config
+\.claude

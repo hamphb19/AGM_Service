@@ -1,0 +1,63 @@
+trigger:
+    paths:
+      include:
+        - $/AGM/DEV/*
+
+pool:
+  name: 'Default'
+  demands:
+    - agent.name -equals ubuntu-laptop
+
+jobs:
+- job: Deploy
+  displayName: 'Deploy to Ubuntu Server'
+  steps:
+
+  - checkout: self
+    clean: true
+
+  - task: UseDotNetCore@2
+    displayName: 'Use .NET 8'
+    inputs:
+      version: '8.x'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Publish Application'
+    inputs:
+      command: 'publish'
+      publishWebProjects: true
+      arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: false
+
+  - bash: |
+      sudo systemctl stop agm-api || true
+    displayName: 'Stop API Service'
+
+  - bash: |
+      rm -rf ~/agm-api/*
+      cp -r $(Build.ArtifactStagingDirectory)/* ~/agm-api/
+    displayName: 'Deploy Files'
+
+  - bash: |
+      sudo mkdir -p /etc/agm-api
+      printf 'ConnectionStrings__Local=%s\nJwtSettings__Secret=%s\nASPNETCORE_ENVIRONMENT=Production\n' \
+        "$AGM_DB_CONNECTION_STRING" "$AGM_JWT_SECRET" \
+        | sudo tee /etc/agm-api/environment > /dev/null
+      sudo chmod 600 /etc/agm-api/environment
+    displayName: 'Write Environment Config'
+    env:
+      AGM_DB_CONNECTION_STRING: $(AGM_DB_CONNECTION_STRING)
+      AGM_JWT_SECRET: $(AGM_JWT_SECRET)
+
+  - bash: |
+      cd ~/agm-api
+      ~/.dotnet/dotnet ef database update
+    displayName: 'Run Migrations'
+    env:
+      ConnectionStrings__Local: $(AGM_DB_CONNECTION_STRING)
+
+  - bash: |
+      sudo systemctl start agm-api
+      sleep 5
+      curl -f http://localhost:5000/health || echo "API starting..."
+    displayName: 'Start API'

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<KnownObjects>
+	<!-- Member-Roles BEGIN -->
+	<MemberRoles>
+		<MemberRole Key="AdminMemberRole">
+			<Name>Administrator</Name>
+			<ShortName>AD</ShortName>
+		</MemberRole>
+		<MemberRole Key="ManagerMemberRole">
+			<Name>Manager</Name>
+			<ShortName>MN</ShortName>
+		</MemberRole>
+		<MemberRole Key="WorkerMemberRole">
+			<Name>Worker</Name>
+			<ShortName>WR</ShortName>
+		</MemberRole>
+		<MemberRole Key="ViewerMemberRole">
+			<Name>Viewer</Name>
+			<ShortName>VW</ShortName>
+		</MemberRole>
+	</MemberRoles>
+	<!-- Member-Roles END -->
+	
+	<!-- Crop-Types BEGIN -->
+	<CropTypes>
+		<CropType Key="BarleyCropType">
+			<Name>Barley</Name>
+			<ShortName>BAR</ShortName>
+		</CropType>
+		<CropType Key="MaizeCropType">
+			<Name>Corn (Maize)</Name>
+			<ShortName>MAI</ShortName>
+		</CropType>
+		<CropType Key="WheatCropType">
+			<Name>Wheat</Name>
+			<ShortName>WHT</ShortName>
+		</CropType>
+		<CropType Key="SoybeanCropType">
+			<Name>Soybean</Name>
+			<ShortName>SOY</ShortName>
+		</CropType>
+		<CropType Key="PumpkinCropType">
+			<Name>Pumpkin</Name>
+			<ShortName>PMP</ShortName>
+		</CropType>
+		<CropType Key="OatCropType">
+			<Name>Oat</Name>
+			<ShortName>OAT</ShortName>
+		</CropType>
+	</CropTypes>
+	<!-- Crop-Types END -->
+	
+	<!-- Crops BEGIN -->
+	<Crops>
+		<Crop Key="MelissaMaizeCrop">
+			<Name>Melissa</Name>
+			<ShortName>MLS</ShortName>
+			<CropTypeShortName>MAI</CropTypeShortName>
+		</Crop>
+		<Crop Key="AmbitioMaizeCrop">
+			<Name>Ambitio</Name>
+			<ShortName>AMB</ShortName>
+			<CropTypeShortName>MAI</CropTypeShortName>
+		</Crop>
+		<Crop Key="AstronautoMaizeCrop">
+			<Name>Astronauto</Name>
+			<ShortName>AST</ShortName>
+			<CropTypeShortName>MAI</CropTypeShortName>
+		</Crop>
+		<Crop Key="WinterWheatCrop">
+			<Name>Winter Wheat</Name>
+			<ShortName>WWH</ShortName>
+			<CropTypeShortName>WHT</CropTypeShortName>
+		</Crop>
+	</Crops>
+	<!-- Crops END -->
+
+	<!-- Stall-Types BEGIN -->
+	<StallTypes>
+		<StallType Key="CowStallType"><Name>Kuhstall</Name><ShortName>COW</ShortName></StallType>
+		<StallType Key="PigStallType"><Name>Schweinestall</Name><ShortName>PIG</ShortName></StallType>
+		<StallType Key="HenStallType"><Name>Hühnerstall</Name><ShortName>HEN</ShortName></StallType>
+		<StallType Key="HorseStallType"><Name>Pferdestall</Name><ShortName>HRS</ShortName></StallType>
+		<StallType Key="SheepStallType"><Name>Schafstall</Name><ShortName>SHP</ShortName></StallType>
+		<StallType Key="GoatStallType"><Name>Ziegenstall</Name><ShortName>GOT</ShortName></StallType>
+		<StallType Key="GeneralStallType"><Name>Allgemein</Name><ShortName>GEN</ShortName></StallType>
+	</StallTypes>
+	<!-- Stall-Types END -->
+
+	<!-- Animal-Types BEGIN -->
+	<AnimalTypes>
+		<AnimalType Key="CowAnimalType"><Name>Rind</Name><ShortName>COW</ShortName></AnimalType>
+		<AnimalType Key="PigAnimalType"><Name>Schwein</Name><ShortName>PIG</ShortName></AnimalType>
+		<AnimalType Key="HenAnimalType"><Name>Huhn</Name><ShortName>HEN</ShortName></AnimalType>
+		<AnimalType Key="HorseAnimalType"><Name>Pferd</Name><ShortName>HRS</ShortName></AnimalType>
+		<AnimalType Key="SheepAnimalType"><Name>Schaf</Name><ShortName>SHP</ShortName></AnimalType>
+		<AnimalType Key="GoatAnimalType"><Name>Ziege</Name><ShortName>GOT</ShortName></AnimalType>
+		<AnimalType Key="DuckAnimalType"><Name>Ente</Name><ShortName>DUC</ShortName></AnimalType>
+		<AnimalType Key="RabbitAnimalType"><Name>Kaninchen</Name><ShortName>RAB</ShortName></AnimalType>
+	</AnimalTypes>
+	<!-- Animal-Types END -->
+
+	<!-- Machine-Types BEGIN -->
+	<MachineTypes>
+		<MachineType Key="TractorMachineType"><Name>Traktor</Name><ShortName>TRC</ShortName></MachineType>
+		<MachineType Key="CombineMachineType"><Name>Mähdrescher</Name><ShortName>CMB</ShortName></MachineType>
+		<MachineType Key="PlowMachineType"><Name>Pflug</Name><ShortName>PLW</ShortName></MachineType>
+		<MachineType Key="SprayerMachineType"><Name>Feldspritze</Name><ShortName>SPR</ShortName></MachineType>
+		<MachineType Key="SeederMachineType"><Name>Sämaschine</Name><ShortName>SWR</ShortName></MachineType>
+		<MachineType Key="FertilizerSpreaderMachineType"><Name>Düngerstreuer</Name><ShortName>FTS</ShortName></MachineType>
+		<MachineType Key="DiscHarrowMachineType"><Name>Scheibenegge</Name><ShortName>DSC</ShortName></MachineType>
+		<MachineType Key="TrailerMachineType"><Name>Anhänger</Name><ShortName>TRL</ShortName></MachineType>
+		<MachineType Key="GeneralMachineType"><Name>Sonstiges</Name><ShortName>GEN</ShortName></MachineType>
+	</MachineTypes>
+	<!-- Machine-Types END -->
+
+	<!-- Machine-Brands BEGIN -->
+	<MachineBrands>
+		<MachineBrand Key="JohnDeereBrand"><Name>John Deere</Name><ShortName>JD</ShortName></MachineBrand>
+		<MachineBrand Key="CLAASBrand"><Name>CLAAS</Name><ShortName>CLS</ShortName></MachineBrand>
+		<MachineBrand Key="FendtBrand"><Name>Fendt</Name><ShortName>FDT</ShortName></MachineBrand>
+		<MachineBrand Key="NewHollandBrand"><Name>New Holland</Name><ShortName>NH</ShortName></MachineBrand>
+		<MachineBrand Key="MasseyFergusonBrand"><Name>Massey Ferguson</Name><ShortName>MF</ShortName></MachineBrand>
+		<MachineBrand Key="DeutzFahrBrand"><Name>Deutz-Fahr</Name><ShortName>DAF</ShortName></MachineBrand>
+		<MachineBrand Key="SteyrBrand"><Name>Steyr</Name><ShortName>STY</ShortName></MachineBrand>
+		<MachineBrand Key="KubotaBrand"><Name>Kubota</Name><ShortName>KBT</ShortName></MachineBrand>
+		<MachineBrand Key="LindnerBrand"><Name>Lindner</Name><ShortName>LDN</ShortName></MachineBrand>
+		<MachineBrand Key="CaseIHBrand"><Name>Case IH</Name><ShortName>CSH</ShortName></MachineBrand>
+		<MachineBrand Key="ValtraBrand"><Name>Valtra</Name><ShortName>VLT</ShortName></MachineBrand>
+		<MachineBrand Key="SameBrand"><Name>Same</Name><ShortName>SAM</ShortName></MachineBrand>
+		<MachineBrand Key="JCBBrand"><Name>JCB</Name><ShortName>JCB</ShortName></MachineBrand>
+		<MachineBrand Key="OtherBrand"><Name>Sonstige</Name><ShortName>OTH</ShortName></MachineBrand>
+	</MachineBrands>
+	<!-- Machine-Brands END -->
+
+	<!-- Field-Action-Types BEGIN -->
+	<FieldActionTypes>
+		<FieldActionType Key="SowingFieldActionType">
+			<Name>Sowing</Name>
+			<ShortName>SOW</ShortName>
+		</FieldActionType>
+		<FieldActionType Key="FertilizingFieldActionType">
+			<Name>Fertilizing</Name>
+			<ShortName>FRT</ShortName>
+		</FieldActionType>
+		<FieldActionType Key="PlantProtectionFieldActionType">
+			<Name>Plant Protection</Name>
+			<ShortName>PPR</ShortName>
+		</FieldActionType>
+		<FieldActionType Key="HarvestFieldActionType">
+			<Name>Harvest</Name>
+			<ShortName>HRV</ShortName>
+		</FieldActionType>
+		<FieldActionType Key="SoilCultivationFieldActionType">
+			<Name>Soil Cultivation</Name>
+			<ShortName>SCT</ShortName>
+		</FieldActionType>
+		<FieldActionType Key="IrrigationFieldActionType">
+			<Name>Irrigation</Name>
+			<ShortName>IRR</ShortName>
+		</FieldActionType>
+		<FieldActionType Key="OtherFieldActionType">
+			<Name>Other</Name>
+			<ShortName>OTH</ShortName>
+		</FieldActionType>
+	</FieldActionTypes>
+	<!-- Field-Action-Types END -->
+</KnownObjects>
