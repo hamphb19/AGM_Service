@@ -73,10 +73,17 @@ builder.Services.AddCors(opts =>
 {
     opts.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(AllowedOrigins)
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
+        if (AllowedOrigins.Length == 0)
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        }
+        else
+        {
+            policy.WithOrigins(AllowedOrigins)
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        }
     });
 });
 
