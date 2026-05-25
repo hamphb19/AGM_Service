@@ -12,6 +12,8 @@ namespace AGM_API.Models
         public string? Email { get; set; }
         [Required]
         public string Username { get; set; } = null!;
+        [MaxLength(8)]
+        public string? UserCode { get; set; }
         public Person.Person Person { get; set; }
     }
 }

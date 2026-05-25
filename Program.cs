@@ -38,6 +38,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AGM_API.Services.AuthService>();
+builder.Services.AddScoped<AGM_API.Services.FarmAuthorizationService>();
+builder.Services.AddScoped<AGM_API.Services.ActivityLogService>();
 builder.Services.AddHttpClient("yahoo", c =>
 {
     c.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");

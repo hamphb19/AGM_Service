@@ -29,6 +29,31 @@ namespace AGM_API.Controllers.Machine
             return Ok(types);
         }
 
+        [HttpGet("models")]
+        public async Task<ActionResult<IEnumerable<MachineModelInfo>>> GetModels(
+            [FromQuery] string? typeShortName,
+            [FromQuery] string? brandShortName)
+        {
+            var query = _context.MachineModels
+                .AsNoTracking()
+                .Include(m => m.MachineType)
+                .Include(m => m.MachineBrand)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(typeShortName))
+                query = query.Where(m => m.MachineType.ShortName == typeShortName);
+
+            if (!string.IsNullOrEmpty(brandShortName))
+                query = query.Where(m => m.MachineBrand != null && m.MachineBrand.ShortName == brandShortName);
+
+            var models = await query
+                .OrderBy(m => m.Name)
+                .Select(m => new MachineModelInfo(m.Id, m.Name, m.MachineType.ShortName, m.MachineBrand != null ? m.MachineBrand.ShortName : null))
+                .ToListAsync();
+
+            return Ok(models);
+        }
+
         [HttpGet("brands")]
         public async Task<ActionResult<IEnumerable<MachineBrandInfo>>> GetBrands()
         {
@@ -38,6 +63,54 @@ namespace AGM_API.Controllers.Machine
                 .Select(b => new MachineBrandInfo(b.Id, b.Name, b.ShortName))
                 .ToListAsync();
             return Ok(brands);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MachineInfo>> GetMachine(long id)
+        {
+            var machine = await _context.Machines
+                .AsNoTracking()
+                .Include(m => m.MachineType)
+                .Include(m => m.MachineBrand)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (machine == null) return NotFound();
+
+            return Ok(new MachineInfo(
+                machine.Id,
+                machine.Name,
+                new MachineTypeInfo(machine.MachineType.Id, machine.MachineType.Name, machine.MachineType.ShortName),
+                machine.MachineBrand != null ? new MachineBrandInfo(machine.MachineBrand.Id, machine.MachineBrand.Name, machine.MachineBrand.ShortName) : null,
+                machine.YearOfManufacture,
+                machine.LicensePlate,
+                machine.Notes,
+                (int)machine.Status
+            ));
+        }
+
+        [HttpGet("field/{fieldId}")]
+        public async Task<ActionResult<IEnumerable<MachineInfo>>> GetMachinesByField(long fieldId)
+        {
+            var farmId = await _context.Fields
+                .Where(f => f.Id == fieldId)
+                .Select(f => (long?)f.FarmId)
+                .FirstOrDefaultAsync();
+            if (farmId == null) return NotFound();
+
+            var machines = await _context.Machines
+                .AsNoTracking()
+                .Where(m => m.FarmId == farmId)
+                .Include(m => m.MachineType)
+                .Include(m => m.MachineBrand)
+                .OrderBy(m => m.Name)
+                .Select(m => new MachineInfo(
+                    m.Id, m.Name,
+                    new MachineTypeInfo(m.MachineType.Id, m.MachineType.Name, m.MachineType.ShortName),
+                    m.MachineBrand != null ? new MachineBrandInfo(m.MachineBrand.Id, m.MachineBrand.Name, m.MachineBrand.ShortName) : null,
+                    m.YearOfManufacture, m.LicensePlate, m.Notes, (int)m.Status
+                ))
+                .ToListAsync();
+            return Ok(machines);
         }
 
         [HttpGet("farm/{farmId}")]
@@ -136,6 +209,7 @@ namespace AGM_API.Controllers.Machine
 
     public record MachineTypeInfo(long Id, string Name, string ShortName);
     public record MachineBrandInfo(long Id, string Name, string ShortName);
+    public record MachineModelInfo(long Id, string Name, string TypeShortName, string? BrandShortName);
     public record MachineInfo(long Id, string Name, MachineTypeInfo MachineType, MachineBrandInfo? MachineBrand, int? YearOfManufacture, string? LicensePlate, string? Notes, int Status);
     public record UpsertMachine(string Name, string MachineTypeShortName, string? MachineBrandShortName, int? YearOfManufacture, string? LicensePlate, string? Notes, int Status);
 }

@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <KnownObjects>
+	<!-- Farm Types BEGIN -->
+	<FarmTypes>
+		<FarmType Key="FT_ACK"><Name>Ackerbau</Name><ShortName>ACK</ShortName></FarmType>
+		<FarmType Key="FT_VZT"><Name>Viehzucht</Name><ShortName>VZT</ShortName></FarmType>
+		<FarmType Key="FT_WIN"><Name>Weinbau</Name><ShortName>WIN</ShortName></FarmType>
+		<FarmType Key="FT_OBT"><Name>Obstbau</Name><ShortName>OBT</ShortName></FarmType>
+		<FarmType Key="FT_MIL"><Name>Milchwirtschaft</Name><ShortName>MIL</ShortName></FarmType>
+		<FarmType Key="FT_GMS"><Name>Gemüsebau</Name><ShortName>GMS</ShortName></FarmType>
+		<FarmType Key="FT_FOR"><Name>Forstwirtschaft</Name><ShortName>FOR</ShortName></FarmType>
+		<FarmType Key="FT_GEM"><Name>Gemischtbetrieb</Name><ShortName>GEM</ShortName></FarmType>
+	</FarmTypes>
+	<!-- Farm Types END -->
 	<!-- Member-Roles BEGIN -->
 	<MemberRoles>
 		<MemberRole Key="AdminMemberRole">
@@ -132,6 +144,269 @@
 		<MachineBrand Key="OtherBrand"><Name>Sonstige</Name><ShortName>OTH</ShortName></MachineBrand>
 	</MachineBrands>
 	<!-- Machine-Brands END -->
+
+	<!-- Machine-Models BEGIN -->
+	<MachineModels>
+		<!-- John Deere Traktoren -->
+		<MachineModel Key="JD_TRC_5R90"><Name>5R 90</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_5R100"><Name>5R 100</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_5R110"><Name>5R 110</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_5R120"><Name>5R 120</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_5R130"><Name>5R 130</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6M120"><Name>6M 120</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6M140"><Name>6M 140</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6M165"><Name>6M 165</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R110"><Name>6R 110</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R130"><Name>6R 130</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R150"><Name>6R 150</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R155"><Name>6R 155</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R175"><Name>6R 175</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R195"><Name>6R 195</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R215"><Name>6R 215</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_6R230"><Name>6R 230</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_7R270"><Name>7R 270</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_7R290"><Name>7R 290</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_7R310"><Name>7R 310</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_7R330"><Name>7R 330</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_8R310"><Name>8R 310</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_8R340"><Name>8R 340</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="JD_TRC_8R370"><Name>8R 370</Name><BrandShortName>JD</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- John Deere Mähdrescher -->
+		<MachineModel Key="JD_CMB_T560"><Name>T560</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="JD_CMB_T670"><Name>T670</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="JD_CMB_S770"><Name>S770</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="JD_CMB_S780"><Name>S780</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="JD_CMB_S790"><Name>S790</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="JD_CMB_W540"><Name>W540</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="JD_CMB_W550"><Name>W550</Name><BrandShortName>JD</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- CLAAS Traktoren -->
+		<MachineModel Key="CLS_TRC_ARION410"><Name>Arion 410</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION420"><Name>Arion 420</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION430"><Name>Arion 430</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION440"><Name>Arion 440</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION510"><Name>Arion 510</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION520"><Name>Arion 520</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION530"><Name>Arion 530</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION540"><Name>Arion 540</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION550"><Name>Arion 550</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION610"><Name>Arion 610</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION620"><Name>Arion 620</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION630"><Name>Arion 630</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION640"><Name>Arion 640</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_ARION650"><Name>Arion 650</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION810"><Name>Axion 810</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION820"><Name>Axion 820</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION830"><Name>Axion 830</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION840"><Name>Axion 840</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION850"><Name>Axion 850</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION870"><Name>Axion 870</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION900"><Name>Axion 900</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION920"><Name>Axion 920</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION940"><Name>Axion 940</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_TRC_AXION960"><Name>Axion 960</Name><BrandShortName>CLS</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- CLAAS Mähdrescher -->
+		<MachineModel Key="CLS_CMB_LEXION5300"><Name>Lexion 5300</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION6600"><Name>Lexion 6600</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION6700"><Name>Lexion 6700</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION7500"><Name>Lexion 7500</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION7600"><Name>Lexion 7600</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION7700"><Name>Lexion 7700</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION8700"><Name>Lexion 8700</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION8800"><Name>Lexion 8800</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_LEXION8900"><Name>Lexion 8900</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_TRION520"><Name>Trion 520</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_TRION620"><Name>Trion 620</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_TRION720"><Name>Trion 720</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CLS_CMB_TRION750"><Name>Trion 750</Name><BrandShortName>CLS</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- Fendt Traktoren -->
+		<MachineModel Key="FDT_TRC_210V"><Name>210 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_211V"><Name>211 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_212V"><Name>212 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_310V"><Name>310 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_311V"><Name>311 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_312V"><Name>312 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_313V"><Name>313 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_314V"><Name>314 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_516V"><Name>516 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_518V"><Name>518 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_720V"><Name>720 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_722V"><Name>722 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_724V"><Name>724 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_728V"><Name>728 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_930V"><Name>930 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_933V"><Name>933 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_936V"><Name>936 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_939V"><Name>939 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_942V"><Name>942 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_1050V"><Name>1050 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_TRC_1058V"><Name>1058 Vario</Name><BrandShortName>FDT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Fendt Mähdrescher -->
+		<MachineModel Key="FDT_CMB_5180L"><Name>5180 L</Name><BrandShortName>FDT</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_CMB_6335C"><Name>6335 C</Name><BrandShortName>FDT</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_CMB_8410C"><Name>8410 C</Name><BrandShortName>FDT</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_CMB_9490X"><Name>9490 X</Name><BrandShortName>FDT</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="FDT_CMB_10465MT"><Name>10465 MT</Name><BrandShortName>FDT</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- New Holland Traktoren -->
+		<MachineModel Key="NH_TRC_T475"><Name>T4.75</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T495"><Name>T4.95</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T4110"><Name>T4.110</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T5100"><Name>T5.100</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T5110"><Name>T5.110</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T5120"><Name>T5.120</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T5130"><Name>T5.130</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T6120"><Name>T6.120</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T6140"><Name>T6.140</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T6155"><Name>T6.155</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T6160"><Name>T6.160</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T6175"><Name>T6.175</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T6180"><Name>T6.180</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T7185"><Name>T7.185</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T7200"><Name>T7.200</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T7210"><Name>T7.210</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T7225"><Name>T7.225</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T7245"><Name>T7.245</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T8320"><Name>T8.320</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="NH_TRC_T8380"><Name>T8.380</Name><BrandShortName>NH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- New Holland Mähdrescher -->
+		<MachineModel Key="NH_CMB_CR580"><Name>CR5.80</Name><BrandShortName>NH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="NH_CMB_CR690"><Name>CR6.90</Name><BrandShortName>NH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="NH_CMB_CR790"><Name>CR7.90</Name><BrandShortName>NH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="NH_CMB_CR890"><Name>CR8.90</Name><BrandShortName>NH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="NH_CMB_CR990"><Name>CR9.90</Name><BrandShortName>NH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="NH_CMB_CR1090"><Name>CR10.90</Name><BrandShortName>NH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- Massey Ferguson Traktoren -->
+		<MachineModel Key="MF_TRC_4708"><Name>MF 4708</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_4709"><Name>MF 4709</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_4710"><Name>MF 4710</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_5712"><Name>MF 5712</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_5713"><Name>MF 5713</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_6714"><Name>MF 6714</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_6715"><Name>MF 6715</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_6718"><Name>MF 6718</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_6720"><Name>MF 6720</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_7719"><Name>MF 7719</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_7720"><Name>MF 7720</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_7722"><Name>MF 7722</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_7724"><Name>MF 7724</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_8727"><Name>MF 8727</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_8730"><Name>MF 8730</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_8732"><Name>MF 8732</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="MF_TRC_8735"><Name>MF 8735</Name><BrandShortName>MF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Massey Ferguson Mähdrescher -->
+		<MachineModel Key="MF_CMB_IDEAL7"><Name>MF IDEAL 7</Name><BrandShortName>MF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="MF_CMB_IDEAL8"><Name>MF IDEAL 8</Name><BrandShortName>MF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="MF_CMB_IDEAL9"><Name>MF IDEAL 9</Name><BrandShortName>MF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="MF_CMB_IDEAL10"><Name>MF IDEAL 10</Name><BrandShortName>MF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- Deutz-Fahr Traktoren -->
+		<MachineModel Key="DAF_TRC_5090D"><Name>5090 D</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_5110D"><Name>5110 D</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6130"><Name>6130</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6140"><Name>6140</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6150"><Name>6150</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6160"><Name>6160</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6175"><Name>6175</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6185"><Name>6185</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_6195"><Name>6195</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_7250TTV"><Name>7250 TTV</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_7260TTV"><Name>7260 TTV</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_8280TTV"><Name>8280 TTV</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_TRC_9310TTV"><Name>9310 TTV</Name><BrandShortName>DAF</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Deutz-Fahr Mähdrescher -->
+		<MachineModel Key="DAF_CMB_C6206"><Name>C6206</Name><BrandShortName>DAF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_CMB_C7206"><Name>C7206</Name><BrandShortName>DAF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_CMB_C7306"><Name>C7306</Name><BrandShortName>DAF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="DAF_CMB_C9306"><Name>C9306</Name><BrandShortName>DAF</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- Steyr Traktoren -->
+		<MachineModel Key="STY_TRC_EXPERT4110"><Name>Expert 4110</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_EXPERT4120"><Name>Expert 4120</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_EXPERT4130"><Name>Expert 4130</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_MULTI4085"><Name>Multi 4085</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_MULTI4095"><Name>Multi 4095</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_MULTI4105"><Name>Multi 4105</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_PROFI4110CVT"><Name>Profi 4110 CVT</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_PROFI4130CVT"><Name>Profi 4130 CVT</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_TERRUS6230"><Name>Terrus CVT 6230</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="STY_TRC_TERRUS6240"><Name>Terrus CVT 6240</Name><BrandShortName>STY</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Case IH Traktoren -->
+		<MachineModel Key="CSH_TRC_FARMALL100A"><Name>Farmall 100 A</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_FARMALL110A"><Name>Farmall 110 A</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_FARMALL115A"><Name>Farmall 115 A</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_MAXXUM110"><Name>Maxxum 110</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_MAXXUM120"><Name>Maxxum 120</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_MAXXUM130"><Name>Maxxum 130</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_MAXXUM145"><Name>Maxxum 145</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_OPTUM270CVX"><Name>Optum 270 CVX</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_OPTUM300CVX"><Name>Optum 300 CVX</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_MAGNUM280"><Name>Magnum 280</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_TRC_MAGNUM340"><Name>Magnum 340</Name><BrandShortName>CSH</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Case IH Mähdrescher -->
+		<MachineModel Key="CSH_CMB_AF5150"><Name>Axial-Flow 5150</Name><BrandShortName>CSH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_CMB_AF6150"><Name>Axial-Flow 6150</Name><BrandShortName>CSH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_CMB_AF7150"><Name>Axial-Flow 7150</Name><BrandShortName>CSH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_CMB_AF8150"><Name>Axial-Flow 8150</Name><BrandShortName>CSH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<MachineModel Key="CSH_CMB_AF9150"><Name>Axial-Flow 9150</Name><BrandShortName>CSH</BrandShortName><TypeShortName>CMB</TypeShortName></MachineModel>
+		<!-- Valtra Traktoren -->
+		<MachineModel Key="VLT_TRC_N104"><Name>N104</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_N134"><Name>N134</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_N154"><Name>N154</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_N174"><Name>N174</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_Q205"><Name>Q205</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_Q265"><Name>Q265</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_T174"><Name>T174</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_T214"><Name>T214</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="VLT_TRC_T234"><Name>T234</Name><BrandShortName>VLT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Kubota Traktoren -->
+		<MachineModel Key="KBT_TRC_M5091"><Name>M5091</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="KBT_TRC_M5101"><Name>M5101</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="KBT_TRC_M6122"><Name>M6122</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="KBT_TRC_M6142"><Name>M6142</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="KBT_TRC_M7131"><Name>M7131</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="KBT_TRC_M7151"><Name>M7151</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<MachineModel Key="KBT_TRC_M7172"><Name>M7172</Name><BrandShortName>KBT</BrandShortName><TypeShortName>TRC</TypeShortName></MachineModel>
+		<!-- Feldspritzen (brand-unabhängig / verschiedene Hersteller) -->
+		<MachineModel Key="OTH_SPR_LEEB4GS"><Name>Leeb 4 GS</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_LEEB6GS"><Name>Leeb 6 GS</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_LEEB8GS"><Name>Leeb 8 GS</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_LEEB12GS"><Name>Leeb 12 GS</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_UX5200"><Name>Amazone UX 5200</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_UX6200"><Name>Amazone UX 6200</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_PANTERA4502"><Name>Amazone Pantera 4502</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SPR_SIRIUS10"><Name>Lemken Sirius 10</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SPR</TypeShortName></MachineModel>
+		<!-- Sämaschinen -->
+		<MachineModel Key="OTH_SWR_MAESTRO875"><Name>Horsch Maestro 8.75 SW</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SWR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SWR_MAESTRO1275"><Name>Horsch Maestro 12.75 SW</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SWR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SWR_AVATAR310"><Name>Horsch Avatar 3.10 SD</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SWR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SWR_D93000"><Name>Amazone D9 3000 Super</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SWR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SWR_EDX6000"><Name>Amazone EDX 6000-2C</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SWR</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_SWR_SAPHIR10"><Name>Lemken Saphir 10</Name><BrandShortName>OTH</BrandShortName><TypeShortName>SWR</TypeShortName></MachineModel>
+		<!-- Düngerstreuer -->
+		<MachineModel Key="OTH_FTS_ZATS3200"><Name>Amazone ZA-TS 3200</Name><BrandShortName>OTH</BrandShortName><TypeShortName>FTS</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_FTS_ZATS4200"><Name>Amazone ZA-TS 4200</Name><BrandShortName>OTH</BrandShortName><TypeShortName>FTS</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_FTS_AXIS302"><Name>Rauch AXIS 30.2 EMC+W</Name><BrandShortName>OTH</BrandShortName><TypeShortName>FTS</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_FTS_AXIS402"><Name>Rauch AXIS 40.2 EMC+W</Name><BrandShortName>OTH</BrandShortName><TypeShortName>FTS</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_FTS_BOGBALLE_E2"><Name>Bogballe E2 Plus</Name><BrandShortName>OTH</BrandShortName><TypeShortName>FTS</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_FTS_BOGBALLE_L2"><Name>Bogballe L2 Plus</Name><BrandShortName>OTH</BrandShortName><TypeShortName>FTS</TypeShortName></MachineModel>
+		<!-- Pflüge -->
+		<MachineModel Key="OTH_PLW_JUWEL8"><Name>Lemken Juwel 8</Name><BrandShortName>OTH</BrandShortName><TypeShortName>PLW</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_PLW_JUWEL9"><Name>Lemken Juwel 9</Name><BrandShortName>OTH</BrandShortName><TypeShortName>PLW</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_PLW_DIAMANT11"><Name>Lemken Diamant 11</Name><BrandShortName>OTH</BrandShortName><TypeShortName>PLW</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_PLW_SERVO6"><Name>Pöttinger SERVO 6</Name><BrandShortName>OTH</BrandShortName><TypeShortName>PLW</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_PLW_SERVO65M"><Name>Pöttinger SERVO 65 M</Name><BrandShortName>OTH</BrandShortName><TypeShortName>PLW</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_PLW_KV2500S"><Name>Kverneland 2500 S</Name><BrandShortName>OTH</BrandShortName><TypeShortName>PLW</TypeShortName></MachineModel>
+		<!-- Scheibeneggen -->
+		<MachineModel Key="OTH_DSC_HELIODOR9"><Name>Lemken Heliodor 9</Name><BrandShortName>OTH</BrandShortName><TypeShortName>DSC</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_DSC_JOKER10RT"><Name>Horsch Joker 10 RT</Name><BrandShortName>OTH</BrandShortName><TypeShortName>DSC</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_DSC_JOKER12RT"><Name>Horsch Joker 12 RT</Name><BrandShortName>OTH</BrandShortName><TypeShortName>DSC</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_DSC_TERRANO4FX"><Name>Horsch Terrano 4 FX</Name><BrandShortName>OTH</BrandShortName><TypeShortName>DSC</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_DSC_TRIO300"><Name>Köckerling Trio 300</Name><BrandShortName>OTH</BrandShortName><TypeShortName>DSC</TypeShortName></MachineModel>
+		<!-- Anhänger -->
+		<MachineModel Key="OTH_TRL_FLIEGL271"><Name>Fliegl ASW 271</Name><BrandShortName>OTH</BrandShortName><TypeShortName>TRL</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_TRL_FLIEGL361"><Name>Fliegl ASW 361</Name><BrandShortName>OTH</BrandShortName><TypeShortName>TRL</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_TRL_KRAMPE358"><Name>Krampe HKD 358</Name><BrandShortName>OTH</BrandShortName><TypeShortName>TRL</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_TRL_KRAMPE750"><Name>Krampe Bandit 750</Name><BrandShortName>OTH</BrandShortName><TypeShortName>TRL</TypeShortName></MachineModel>
+		<MachineModel Key="OTH_TRL_HAWE5000"><Name>Hawe ULW 5000</Name><BrandShortName>OTH</BrandShortName><TypeShortName>TRL</TypeShortName></MachineModel>
+	</MachineModels>
+	<!-- Machine-Models END -->
 
 	<!-- Field-Action-Types BEGIN -->
 	<FieldActionTypes>

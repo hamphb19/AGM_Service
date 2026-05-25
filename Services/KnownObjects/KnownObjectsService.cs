@@ -43,6 +43,7 @@ namespace AGM_API.Services.KnownObjects
 
             try
             {
+                KnownObjectsFarmTypes(context, knownObjects.FarmTypes);
                 KnownObjectsMemberRoles(context, knownObjects.MemberRoles);
                 KnownObjectsCropTypes(context, knownObjects.CropTypes);
                 KnownObjectsCrops(context, knownObjects.Crops);
@@ -51,6 +52,7 @@ namespace AGM_API.Services.KnownObjects
                 KnownObjectsAnimalTypes(context, knownObjects.AnimalTypes);
                 KnownObjectsMachineTypes(context, knownObjects.MachineTypes);
                 KnownObjectsMachineBrands(context, knownObjects.MachineBrands);
+                KnownObjectsMachineModels(context, knownObjects.MachineModels);
             }
             catch (Exception ex)
             {
@@ -60,6 +62,16 @@ namespace AGM_API.Services.KnownObjects
             {
                 context.ChangeTracker.AutoDetectChangesEnabled = true;
             }
+        }
+
+        private static void KnownObjectsFarmTypes(AppDbContext context, List<FarmTypeXml> xmlItems)
+        {
+            if (!xmlItems.Any()) return;
+            var existing = context.FarmTypes.Select(x => x.ShortName).ToHashSet();
+            var newItems = xmlItems.Where(x => !existing.Contains(x.ShortName))
+                .Select(x => new Models.Farm.FarmType { Name = x.Name, ShortName = x.ShortName }).ToList();
+            if (newItems.Any()) { context.FarmTypes.AddRange(newItems); context.SaveChanges(); }
+            else Console.WriteLine("✓ FarmTypes already seeded");
         }
 
         private static void KnownObjectsMemberRoles(AppDbContext context, List<MemberRoleXml> memberRoleXmls)
@@ -177,6 +189,38 @@ namespace AGM_API.Services.KnownObjects
                 .Select(x => new MachineBrand { Name = x.Name, ShortName = x.ShortName }).ToList();
             if (newItems.Any()) { context.MachineBrands.AddRange(newItems); context.SaveChanges(); }
             else Console.WriteLine("✓ MachineBrands already seeded");
+        }
+
+        private static void KnownObjectsMachineModels(AppDbContext context, List<MachineModelXml> xmlItems)
+        {
+            if (!xmlItems.Any()) return;
+
+            var types = context.MachineTypes.ToList();
+            var brands = context.MachineBrands.ToList();
+            var existingKeys = context.MachineModels
+                .Select(m => m.MachineTypeId + "_" + (m.MachineBrandId ?? 0) + "_" + m.Name)
+                .ToHashSet();
+
+            var newItems = new List<AGM_API.Models.Machine.MachineModel>();
+            foreach (var xml in xmlItems)
+            {
+                var type = types.FirstOrDefault(t => t.ShortName == xml.TypeShortName);
+                if (type == null) continue;
+                var brand = brands.FirstOrDefault(b => b.ShortName == xml.BrandShortName);
+                var brandId = brand?.Id;
+                var key = type.Id + "_" + (brandId ?? 0) + "_" + xml.Name;
+                if (existingKeys.Contains(key)) continue;
+                newItems.Add(new AGM_API.Models.Machine.MachineModel
+                {
+                    Name = xml.Name,
+                    MachineTypeId = type.Id,
+                    MachineBrandId = brandId,
+                });
+                existingKeys.Add(key);
+            }
+
+            if (newItems.Any()) { context.MachineModels.AddRange(newItems); context.SaveChanges(); }
+            else Console.WriteLine("✓ MachineModels already seeded");
         }
 
         private static void KnownObjectsCrops(AppDbContext context, List<CropXml> cropsXml)

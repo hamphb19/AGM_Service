@@ -74,7 +74,6 @@ namespace AGM_API.Controllers.Season
                 )).ToList(),
                 season.Tasks.Select(t => new GetTaskInfo(
                     t.Id,
-                    t.ShortName,
                     t.Name,
                     t.Status.ToString(),
                     t.DueDate

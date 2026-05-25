@@ -17,5 +17,21 @@ namespace AGM_API.Models.Field
         public string? Notes { get; set; }
         public double? Amount { get; set; }
         public string? Unit { get; set; }
+
+        // AMA documentation fields
+        public string? Product { get; set; }
+        public string? RegistrationNumber { get; set; }
+        public string? Pest { get; set; }
+        public double? Temperature { get; set; }
+        public double? WindSpeed { get; set; }
+        public string? Applicator { get; set; }
+        public double? NContent { get; set; }
+        public int? FertilizerType { get; set; }
+        public string? Variety { get; set; }
+
+        public long? SeasonId { get; set; }
+        public Season.Season? Season { get; set; }
+
+        public ICollection<FieldActionMachine> Machines { get; set; } = new List<FieldActionMachine>();
     }
 }

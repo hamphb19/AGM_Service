@@ -5,6 +5,9 @@ namespace AGM_API.Services.KnownObjects
     [XmlRoot("KnownObjects")]
     public class KnownObjects
     {
+        [XmlArray("FarmTypes")]
+        [XmlArrayItem("FarmType")]
+        public List<FarmTypeXml> FarmTypes { get; set; } = new();
         [XmlArray("MemberRoles")]
         [XmlArrayItem("MemberRole")]
         public List<MemberRoleXml> MemberRoles { get; set; } = new();
@@ -23,12 +26,22 @@ namespace AGM_API.Services.KnownObjects
         [XmlArray("MachineBrands")]
         [XmlArrayItem("MachineBrand")]
         public List<MachineBrandXml> MachineBrands { get; set; } = new();
+        [XmlArray("MachineModels")]
+        [XmlArrayItem("MachineModel")]
+        public List<MachineModelXml> MachineModels { get; set; } = new();
         [XmlArray("StallTypes")]
         [XmlArrayItem("StallType")]
         public List<StallTypeXml> StallTypes { get; set; } = new();
         [XmlArray("AnimalTypes")]
         [XmlArrayItem("AnimalType")]
         public List<AnimalTypeXml> AnimalTypes { get; set; } = new();
+    }
+
+    public class FarmTypeXml
+    {
+        [XmlAttribute("Key")] public string Key { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string ShortName { get; set; } = null!;
     }
 
     public class MachineTypeXml
@@ -45,6 +58,15 @@ namespace AGM_API.Services.KnownObjects
         public string Key { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string ShortName { get; set; } = null!;
+    }
+
+    public class MachineModelXml
+    {
+        [XmlAttribute("Key")]
+        public string Key { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string BrandShortName { get; set; } = null!;
+        public string TypeShortName { get; set; } = null!;
     }
 
     public class StallTypeXml

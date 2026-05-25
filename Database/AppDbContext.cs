@@ -30,6 +30,7 @@ namespace AGM_API.Database
 
         #region Farm
         public DbSet<Farm> Farms { get; set; }
+        public DbSet<FarmType> FarmTypes { get; set; }
         public DbSet<FarmMember> FarmMembers { get; set; }
         public DbSet<MemberRole> MemberRoles { get; set; }
         public DbSet<FarmAnimal> FarmAnimals { get; set; }
@@ -53,7 +54,8 @@ namespace AGM_API.Database
 
         #region Task
 
-        public DbSet<Models.Task.Task> Tasks { get; set; } 
+        public DbSet<Models.Task.Task> Tasks { get; set; }
+        public DbSet<Models.Task.TaskField> TaskFields { get; set; }
 
         #endregion
 
@@ -62,6 +64,8 @@ namespace AGM_API.Database
         public DbSet<Models.Machine.Machine> Machines { get; set; }
         public DbSet<Models.Machine.MachineType> MachineTypes { get; set; }
         public DbSet<Models.Machine.MachineBrand> MachineBrands { get; set; }
+        public DbSet<Models.Machine.MachineModel> MachineModels { get; set; }
+        public DbSet<Models.Machine.MachineService> MachineServices { get; set; }
 
         #endregion
 
@@ -88,6 +92,8 @@ namespace AGM_API.Database
 
         #endregion
 
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
+
         #region Field
 
         public DbSet<Field> Fields { get; set; }
@@ -95,6 +101,7 @@ namespace AGM_API.Database
         public DbSet<FieldAction> FieldActions { get; set; }
         public DbSet<FieldActionType> FieldActionTypes { get; set; }
         public DbSet<FieldActionPhoto> FieldActionPhotos { get; set; }
+        public DbSet<FieldActionMachine> FieldActionMachines { get; set; }
 
         #endregion
 
@@ -191,6 +198,51 @@ namespace AGM_API.Database
                  .OnDelete(DeleteBehavior.Cascade);
             });
 
+            modelBuilder.Entity<FieldAction>(e =>
+            {
+                e.HasOne(x => x.Season)
+                 .WithMany()
+                 .HasForeignKey(x => x.SeasonId)
+                 .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<ActivityLog>()
+                .HasIndex(a => new { a.FarmId, a.Timestamp });
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.UserCode)
+                .IsUnique()
+                .HasFilter("\"UserCode\" IS NOT NULL");
+
+            modelBuilder.Entity<Models.Farm.Farm>(e =>
+            {
+                e.HasOne(x => x.FarmType)
+                 .WithMany()
+                 .HasForeignKey(x => x.FarmTypeId)
+                 .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<Models.Machine.MachineModel>(e =>
+            {
+                e.HasOne(x => x.MachineBrand)
+                 .WithMany()
+                 .HasForeignKey(x => x.MachineBrandId)
+                 .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<Models.Field.FieldActionMachine>(e =>
+            {
+                e.HasKey(x => new { x.FieldActionId, x.MachineId });
+                e.HasOne(x => x.FieldAction)
+                 .WithMany(x => x.Machines)
+                 .HasForeignKey(x => x.FieldActionId)
+                 .OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(x => x.Machine)
+                 .WithMany()
+                 .HasForeignKey(x => x.MachineId)
+                 .OnDelete(DeleteBehavior.Cascade);
+            });
+
             modelBuilder.Entity<SeasonField>(e =>
             {
                 e.HasKey(x => new { x.season_Id, x.field_Id });
@@ -241,6 +293,27 @@ namespace AGM_API.Database
                  .WithMany()
                  .HasForeignKey(x => x.animal_Id)
                  .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Models.Task.Task>(e =>
+            {
+                e.HasOne(x => x.Farm)
+                 .WithMany()
+                 .HasForeignKey(x => x.FarmId)
+                 .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Models.Task.TaskField>(e =>
+            {
+                e.HasKey(x => new { x.TaskId, x.FieldId });
+                e.HasOne(x => x.Task)
+                 .WithMany(t => t.Fields)
+                 .HasForeignKey(x => x.TaskId)
+                 .OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(x => x.Field)
+                 .WithMany()
+                 .HasForeignKey(x => x.FieldId)
+                 .OnDelete(DeleteBehavior.Cascade);
             });
 
         }

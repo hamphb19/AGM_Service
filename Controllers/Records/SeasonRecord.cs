@@ -19,4 +19,5 @@ namespace AGM_API.Controllers.Records
     public record UpdateSeasonField(long? CropId, bool IsPlowed, bool IsFertilized, bool IsHarvested, string? Notes);
     public record GetSeasonFieldInfo(long FieldId, string FieldName, GetCropInfo? Crop, bool IsPlowed, bool IsFertilized, bool IsHarvested, string? Notes);
     public record GetSeasonInfo(long Id, string Name);
+    public record FieldSeasonHistory(long SeasonId, string SeasonName, string SeasonShortName, DateTime StartDate, DateTime EndDate, GetCropInfo? Crop, bool IsPlowed, bool IsFertilized, bool IsHarvested, string? Notes);
 }

@@ -3,6 +3,7 @@ using System;
 using AGM_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AGM_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260520163955_AddMachineServiceLog")]
+    partial class AddMachineServiceLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -609,21 +612,6 @@ namespace AGM_API.Migrations
                     b.ToTable("FieldAction");
                 });
 
-            modelBuilder.Entity("AGM_API.Models.Field.FieldActionMachine", b =>
-                {
-                    b.Property<long>("FieldActionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MachineId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("FieldActionId", "MachineId");
-
-                    b.HasIndex("MachineId");
-
-                    b.ToTable("FieldActionMachine");
-                });
-
             modelBuilder.Entity("AGM_API.Models.Field.FieldActionPhoto", b =>
                 {
                     b.Property<long>("Id")
@@ -1025,7 +1013,7 @@ namespace AGM_API.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("FarmId")
+                    b.Property<long?>("FieldId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -1049,26 +1037,11 @@ namespace AGM_API.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("FarmId");
+                    b.HasIndex("FieldId");
 
                     b.HasIndex("SeasonId");
 
                     b.ToTable("Task");
-                });
-
-            modelBuilder.Entity("AGM_API.Models.Task.TaskField", b =>
-                {
-                    b.Property<long>("TaskId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("FieldId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("TaskId", "FieldId");
-
-                    b.HasIndex("FieldId");
-
-                    b.ToTable("TaskField");
                 });
 
             modelBuilder.Entity("AGM_API.Models.User", b =>
@@ -1379,25 +1352,6 @@ namespace AGM_API.Migrations
                     b.Navigation("Season");
                 });
 
-            modelBuilder.Entity("AGM_API.Models.Field.FieldActionMachine", b =>
-                {
-                    b.HasOne("AGM_API.Models.Field.FieldAction", "FieldAction")
-                        .WithMany("Machines")
-                        .HasForeignKey("FieldActionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AGM_API.Models.Machine.Machine", "Machine")
-                        .WithMany()
-                        .HasForeignKey("MachineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FieldAction");
-
-                    b.Navigation("Machine");
-                });
-
             modelBuilder.Entity("AGM_API.Models.Field.FieldActionPhoto", b =>
                 {
                     b.HasOne("AGM_API.Models.Field.FieldAction", "FieldAction")
@@ -1592,11 +1546,9 @@ namespace AGM_API.Migrations
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("AGM_API.Models.Farm.Farm", "Farm")
+                    b.HasOne("AGM_API.Models.Field.Field", "Field")
                         .WithMany()
-                        .HasForeignKey("FarmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FieldId");
 
                     b.HasOne("AGM_API.Models.Season.Season", "Season")
                         .WithMany("Tasks")
@@ -1608,28 +1560,9 @@ namespace AGM_API.Migrations
 
                     b.Navigation("CreatedBy");
 
-                    b.Navigation("Farm");
-
-                    b.Navigation("Season");
-                });
-
-            modelBuilder.Entity("AGM_API.Models.Task.TaskField", b =>
-                {
-                    b.HasOne("AGM_API.Models.Field.Field", "Field")
-                        .WithMany()
-                        .HasForeignKey("FieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AGM_API.Models.Task.Task", "Task")
-                        .WithMany("Fields")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Field");
 
-                    b.Navigation("Task");
+                    b.Navigation("Season");
                 });
 
             modelBuilder.Entity("AGM_API.Models.Animal.Stall", b =>
@@ -1659,11 +1592,6 @@ namespace AGM_API.Migrations
                     b.Navigation("keyPoints");
                 });
 
-            modelBuilder.Entity("AGM_API.Models.Field.FieldAction", b =>
-                {
-                    b.Navigation("Machines");
-                });
-
             modelBuilder.Entity("AGM_API.Models.Person.Person", b =>
                 {
                     b.Navigation("MemberOfFarms");
@@ -1676,11 +1604,6 @@ namespace AGM_API.Migrations
                     b.Navigation("SeasonFields");
 
                     b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("AGM_API.Models.Task.Task", b =>
-                {
-                    b.Navigation("Fields");
                 });
 
             modelBuilder.Entity("AGM_API.Models.User", b =>

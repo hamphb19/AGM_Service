@@ -11,10 +11,10 @@ namespace AGM_API.Models.Task
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string ShortName { get; set; }
-        public Season.Season? Season { get; set; }   
-        public Field.Field? Field { get; set; }
+        public long FarmId { get; set; }
+        public Farm.Farm? Farm { get; set; }
+        public Season.Season? Season { get; set; }
+        public ICollection<TaskField> Fields { get; set; } = new List<TaskField>();
         public Person.Person? AssignedTo { get; set; }
         public DateTime? DueDate { get; set; }
 

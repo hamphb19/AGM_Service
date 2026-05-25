@@ -1,9 +1,11 @@
 ﻿using AGM_API.Controllers.Records;
 using AGM_API.Database;
 using AGM_API.Models.Season;
+using AGM_API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AGM_API.Controllers.Season
 {
@@ -13,10 +15,14 @@ namespace AGM_API.Controllers.Season
     public class SeasonFieldController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
+        private readonly ActivityLogService _activity;
 
-        public SeasonFieldController(AppDbContext context)
+        public SeasonFieldController(AppDbContext context, FarmAuthorizationService auth, ActivityLogService activity)
         {
             _context = context;
+            _auth = auth;
+            _activity = activity;
         }
 
         [HttpGet]
@@ -91,10 +97,48 @@ namespace AGM_API.Controllers.Season
             return NoContent();
         }
 
+        [HttpGet("field/{fieldId}/history")]
+        public async Task<ActionResult<IEnumerable<FieldSeasonHistory>>> GetFieldSeasonHistory(long fieldId)
+        {
+            var farmId = await _auth.GetFarmIdForFieldAsync(fieldId);
+            if (farmId == null) return NotFound("Field not found");
+
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.IsMemberAsync(farmId.Value, userId))
+                return Forbid();
+
+            var history = await _context.SeasonFields
+                .AsNoTracking()
+                .Where(sf => sf.field_Id == fieldId)
+                .Include(sf => sf.Season)
+                .Include(sf => sf.Crop)
+                    .ThenInclude(c => c!.CropType)
+                .OrderByDescending(sf => sf.Season.StartDate)
+                .Select(sf => new FieldSeasonHistory(
+                    sf.season_Id,
+                    sf.Season.Name,
+                    sf.Season.ShortName,
+                    sf.Season.StartDate,
+                    sf.Season.EndDate,
+                    sf.Crop != null
+                        ? new GetCropInfo(sf.Crop.Id, sf.Crop.Name, sf.Crop.ShortName, sf.Crop.CropType!.Name)
+                        : null,
+                    sf.IsPlowed,
+                    sf.IsFertilized,
+                    sf.IsHarvested,
+                    sf.Notes
+                ))
+                .ToListAsync();
+
+            return Ok(history);
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddFieldToSeason(long seasonId, [FromBody] AddFieldToSeason dto)
         {
-            var season = await _context.Seasons.FindAsync(seasonId);
+            var season = await _context.Seasons
+                .Include(s => s.Farm)
+                .FirstOrDefaultAsync(s => s.Id == seasonId);
             if (season == null)
                 return NotFound("Season not found");
 
@@ -121,6 +165,8 @@ namespace AGM_API.Controllers.Season
 
             _context.SeasonFields.Add(seasonField);
             await _context.SaveChangesAsync();
+            await _activity.LogAsync(season.Farm.Id, "SeasonField", dto.FieldId, "Created",
+                $"{field.Name} → {season.Name}");
 
             return NoContent();
         }

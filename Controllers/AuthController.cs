@@ -22,21 +22,20 @@ namespace AGM_API.Controllers
 
         public record RegisterRequest([Required] string Username, [Required] string Password, string? Email);
         public record LoginRequest([Required] string Username, [Required] string Password);
-        public record AuthResponse(string Token, string Username, long Id);
+        public record AuthResponse(string Token, string Username, long Id, string? UserCode);
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (await _context.Users.AnyAsync(u => u.Username == request.Username))
-            {
-                return BadRequest("Username already exists.");
-            }
+                return BadRequest(new { code = "USERNAME_TAKEN" });
 
             var user = new User
             {
                 Username = request.Username,
                 Email = request.Email,
-                PasswordHash = _authService.HashPassword(request.Password)
+                PasswordHash = _authService.HashPassword(request.Password),
+                UserCode = await GenerateUniqueUserCode(),
             };
 
             _context.Users.Add(user);
@@ -53,14 +52,34 @@ namespace AGM_API.Controllers
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == request.Username);
 
-            if (user == null || user.PasswordHash == null || !_authService.VerifyPassword(request.Password, user.PasswordHash))
+            if (user == null)
+                return NotFound(new { code = "USER_NOT_FOUND" });
+
+            if (user.PasswordHash == null || !_authService.VerifyPassword(request.Password, user.PasswordHash))
+                return Unauthorized(new { code = "WRONG_PASSWORD" });
+
+            // Backfill UserCode for accounts created before this feature
+            if (user.UserCode == null)
             {
-                return Unauthorized("Invalid username or password");
+                user.UserCode = await GenerateUniqueUserCode();
+                await _context.SaveChangesAsync();
             }
 
             var token = _authService.GenerateJwtToken(user);
+            return Ok(new AuthResponse(token, user.Username, user.Id, user.UserCode));
+        }
 
-            return Ok(new AuthResponse(token, user.Username, user.Id));
+        private async Task<string> GenerateUniqueUserCode()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var rng = new Random();
+            string code;
+            do
+            {
+                code = new string(Enumerable.Repeat(chars, 6).Select(s => s[rng.Next(s.Length)]).ToArray());
+            }
+            while (await _context.Users.AnyAsync(u => u.UserCode == code));
+            return code;
         }
     }
 }

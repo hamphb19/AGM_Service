@@ -3,6 +3,7 @@ using System;
 using AGM_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AGM_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260525165124_TaskMultiField")]
+    partial class TaskMultiField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1025,9 +1028,6 @@ namespace AGM_API.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("FarmId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1048,8 +1048,6 @@ namespace AGM_API.Migrations
                     b.HasIndex("ChangeById");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("FarmId");
 
                     b.HasIndex("SeasonId");
 
@@ -1592,12 +1590,6 @@ namespace AGM_API.Migrations
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("AGM_API.Models.Farm.Farm", "Farm")
-                        .WithMany()
-                        .HasForeignKey("FarmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AGM_API.Models.Season.Season", "Season")
                         .WithMany("Tasks")
                         .HasForeignKey("SeasonId");
@@ -1607,8 +1599,6 @@ namespace AGM_API.Migrations
                     b.Navigation("ChangeBy");
 
                     b.Navigation("CreatedBy");
-
-                    b.Navigation("Farm");
 
                     b.Navigation("Season");
                 });

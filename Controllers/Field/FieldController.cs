@@ -1,9 +1,11 @@
 using AGM_API.Controllers.Records;
 using AGM_API.Database;
+using AGM_API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
+using System.Security.Claims;
 
 namespace AGM_API.Controllers.Field
 {
@@ -13,17 +15,23 @@ namespace AGM_API.Controllers.Field
     public class FieldController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
         private static readonly GeometryFactory _geoFactory =
             NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 
-        public FieldController(AppDbContext context)
+        public FieldController(AppDbContext context, FarmAuthorizationService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
         [HttpGet("farm/{farmId}")]
         public async Task<ActionResult<IEnumerable<GetFieldDetail>>> GetFields(long farmId)
         {
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.IsMemberAsync(farmId, userId))
+                return Forbid();
+
             var fields = await _context.Fields
                 .AsNoTracking()
                 .Where(f => f.FarmId == farmId)
@@ -49,6 +57,10 @@ namespace AGM_API.Controllers.Field
 
             if (field == null) return NotFound();
 
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.IsMemberAsync(field.FarmId, userId))
+                return Forbid();
+
             return Ok(new GetFieldDetail(
                 field.Id, field.Name, field.AreaHa,
                 field.keyPoints.Select(kp => new GeoPoint(kp.Keypoint.Y, kp.Keypoint.X)).ToList()
@@ -58,6 +70,10 @@ namespace AGM_API.Controllers.Field
         [HttpPost("farm/{farmId}")]
         public async Task<ActionResult<GetFieldDetail>> CreateField(long farmId, [FromBody] CreateField dto)
         {
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.CanWriteAsync(farmId, userId))
+                return Forbid();
+
             var farm = await _context.Farms.FindAsync(farmId);
             if (farm == null) return NotFound("Farm not found");
 
@@ -80,6 +96,10 @@ namespace AGM_API.Controllers.Field
             var field = await _context.Fields.FindAsync(id);
             if (field == null) return NotFound();
 
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.CanWriteAsync(field.FarmId, userId))
+                return Forbid();
+
             field.Name = dto.Name.Trim();
             field.AreaHa = dto.AreaHa;
 
@@ -94,6 +114,10 @@ namespace AGM_API.Controllers.Field
                 .Include(f => f.keyPoints)
                 .FirstOrDefaultAsync(f => f.Id == id);
             if (field == null) return NotFound();
+
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.CanWriteAsync(field.FarmId, userId))
+                return Forbid();
 
             _context.FieldKeyPoints.RemoveRange(field.keyPoints);
 
@@ -115,6 +139,10 @@ namespace AGM_API.Controllers.Field
         {
             var field = await _context.Fields.FindAsync(id);
             if (field == null) return NotFound();
+
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (!await _auth.IsAdminAsync(field.FarmId, userId))
+                return Forbid();
 
             _context.Fields.Remove(field);
             await _context.SaveChangesAsync();
