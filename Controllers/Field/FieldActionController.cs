@@ -69,6 +69,31 @@ namespace AGM_API.Controllers.Field
             return Ok(actions);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<FieldActionInfo>> GetAction(long id)
+        {
+            var action = await _context.FieldActions
+                .AsNoTracking()
+                .Include(a => a.ActionType)
+                .Include(a => a.Machines).ThenInclude(m => m.Machine).ThenInclude(m => m.MachineType)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (action == null) return NotFound();
+
+            var farmId = await _auth.GetFarmIdForFieldAsync(action.FieldId);
+            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (farmId == null || !await _auth.IsMemberAsync(farmId.Value, userId))
+                return Forbid();
+
+            return Ok(new FieldActionInfo(
+                action.Id, action.FieldId, action.Date, action.ActionType.ShortName, action.ActionType.Name,
+                action.Notes, action.Amount, action.Unit,
+                action.Product, action.RegistrationNumber, action.Pest,
+                action.Temperature, action.WindSpeed, action.Applicator,
+                action.NContent, action.FertilizerType, action.Variety, action.SeasonId,
+                action.Machines.Select(m => new ActionMachineInfo(m.MachineId, m.Machine.Name, m.Machine.MachineType.ShortName)).ToList()));
+        }
+
         [HttpGet("season/{seasonId}")]
         public async Task<ActionResult<IEnumerable<FieldActionInfo>>> GetActionsBySeason(long seasonId)
         {

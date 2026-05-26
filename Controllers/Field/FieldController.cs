@@ -26,11 +26,22 @@ namespace AGM_API.Controllers.Field
         }
 
         [HttpGet("farm/{farmId}")]
-        public async Task<ActionResult<IEnumerable<GetFieldDetail>>> GetFields(long farmId)
+        public async Task<ActionResult<IEnumerable<GetFieldDetail>>> GetFields(long farmId, [FromQuery] bool simple = false)
         {
             var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (!await _auth.IsMemberAsync(farmId, userId))
                 return Forbid();
+
+            if (simple)
+            {
+                var simpleFields = await _context.Fields
+                    .AsNoTracking()
+                    .Where(f => f.FarmId == farmId)
+                    .OrderBy(f => f.Name)
+                    .Select(f => new { f.Id, f.Name, f.AreaHa })
+                    .ToListAsync();
+                return Ok(simpleFields.Select(f => new GetFieldDetail(f.Id, f.Name, f.AreaHa, [])));
+            }
 
             var fields = await _context.Fields
                 .AsNoTracking()
