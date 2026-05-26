@@ -41,7 +41,7 @@ namespace AGM_API.Controllers.Field
 
             var result = fields.Select(f => new GetFieldDetail(
                 f.Id, f.Name, f.AreaHa,
-                f.keyPoints.Select(kp => new GeoPoint(kp.Keypoint.Y, kp.Keypoint.X)).ToList()
+                f.keyPoints.OrderBy(kp => kp.Id).Select(kp => new GeoPoint(kp.Keypoint.Y, kp.Keypoint.X)).ToList()
             ));
 
             return Ok(result);
@@ -63,7 +63,7 @@ namespace AGM_API.Controllers.Field
 
             return Ok(new GetFieldDetail(
                 field.Id, field.Name, field.AreaHa,
-                field.keyPoints.Select(kp => new GeoPoint(kp.Keypoint.Y, kp.Keypoint.X)).ToList()
+                field.keyPoints.OrderBy(kp => kp.Id).Select(kp => new GeoPoint(kp.Keypoint.Y, kp.Keypoint.X)).ToList()
             ));
         }
 

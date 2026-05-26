@@ -1,9 +1,11 @@
 using AGM_API.Database;
 using AGM_API.Models;
 using AGM_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace AGM_API.Controllers
 {
@@ -23,6 +25,7 @@ namespace AGM_API.Controllers
         public record RegisterRequest([Required] string Username, [Required] string Password, string? Email);
         public record LoginRequest([Required] string Username, [Required] string Password);
         public record AuthResponse(string Token, string Username, long Id, string? UserCode);
+        public record ChangePasswordRequest([Required] string CurrentPassword, [Required] string NewPassword);
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
@@ -67,6 +70,29 @@ namespace AGM_API.Controllers
 
             var token = _authService.GenerateJwtToken(user);
             return Ok(new AuthResponse(token, user.Username, user.Id, user.UserCode));
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!long.TryParse(userId, out var id))
+                return Unauthorized();
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+                return NotFound();
+
+            if (user.PasswordHash == null || !_authService.VerifyPassword(request.CurrentPassword, user.PasswordHash))
+                return BadRequest(new { code = "WRONG_PASSWORD" });
+
+            if (request.NewPassword.Length < 6)
+                return BadRequest(new { code = "PASSWORD_TOO_SHORT" });
+
+            user.PasswordHash = _authService.HashPassword(request.NewPassword);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         private async Task<string> GenerateUniqueUserCode()

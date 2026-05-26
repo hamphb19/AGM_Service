@@ -255,7 +255,7 @@ namespace AGM_API.Database
                 e.HasOne(x => x.Field)
                     .WithMany()
                     .HasForeignKey(x => x.field_Id)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
             });
 
