@@ -14,6 +14,9 @@ namespace AGM_API.Models
         public string Username { get; set; } = null!;
         [MaxLength(8)]
         public string? UserCode { get; set; }
+        /// <summary>Keycloak subject (sub) claim — the external identity this user is linked to.</summary>
+        public string? KeycloakSubject { get; set; }
+        public bool IsAdmin { get; set; } = false;
         public Person.Person Person { get; set; }
     }
 }

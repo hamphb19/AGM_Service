@@ -29,6 +29,9 @@ namespace AGM_API.Models.Field
         public int? FertilizerType { get; set; }
         public string? Variety { get; set; }
 
+        public long? CropId { get; set; }
+        public Models.Crop.Crop? Crop { get; set; }
+
         public long? SeasonId { get; set; }
         public Season.Season? Season { get; set; }
 

@@ -62,7 +62,7 @@ namespace AGM_API.Controllers.Field
                     a.Notes, a.Amount, a.Unit,
                     a.Product, a.RegistrationNumber, a.Pest,
                     a.Temperature, a.WindSpeed, a.Applicator,
-                    a.NContent, a.FertilizerType, a.Variety, a.SeasonId,
+                    a.NContent, a.FertilizerType, a.Variety, a.SeasonId, a.CropId,
                     a.Machines.Select(m => new ActionMachineInfo(m.MachineId, m.Machine.Name, m.Machine.MachineType.ShortName)).ToList()))
                 .ToListAsync();
 
@@ -90,7 +90,7 @@ namespace AGM_API.Controllers.Field
                 action.Notes, action.Amount, action.Unit,
                 action.Product, action.RegistrationNumber, action.Pest,
                 action.Temperature, action.WindSpeed, action.Applicator,
-                action.NContent, action.FertilizerType, action.Variety, action.SeasonId,
+                action.NContent, action.FertilizerType, action.Variety, action.SeasonId, action.CropId,
                 action.Machines.Select(m => new ActionMachineInfo(m.MachineId, m.Machine.Name, m.Machine.MachineType.ShortName)).ToList()));
         }
 
@@ -119,7 +119,7 @@ namespace AGM_API.Controllers.Field
                     a.Notes, a.Amount, a.Unit,
                     a.Product, a.RegistrationNumber, a.Pest,
                     a.Temperature, a.WindSpeed, a.Applicator,
-                    a.NContent, a.FertilizerType, a.Variety, a.SeasonId,
+                    a.NContent, a.FertilizerType, a.Variety, a.SeasonId, a.CropId,
                     a.Machines.Select(m => new ActionMachineInfo(m.MachineId, m.Machine.Name, m.Machine.MachineType.ShortName)).ToList()))
                 .ToListAsync();
 
@@ -159,6 +159,7 @@ namespace AGM_API.Controllers.Field
                 FertilizerType = dto.FertilizerType,
                 Variety = dto.Variety,
                 SeasonId = dto.SeasonId,
+                CropId = dto.CropId,
             };
 
             if (dto.MachineIds != null)
@@ -167,6 +168,19 @@ namespace AGM_API.Controllers.Field
 
             _context.FieldActions.Add(action);
             await _context.SaveChangesAsync();
+
+            // When sowing with a crop in a season, update the SeasonField crop automatically
+            if (actionType.ShortName == "SOW" && dto.CropId.HasValue && dto.SeasonId.HasValue)
+            {
+                var seasonField = await _context.SeasonFields
+                    .FirstOrDefaultAsync(sf => sf.season_Id == dto.SeasonId.Value && sf.field_Id == fieldId);
+                if (seasonField != null)
+                {
+                    seasonField.Crop = await _context.Crops.FindAsync(dto.CropId.Value);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
             await _activity.LogAsync(farmId.Value, "FieldAction", null, "Created",
                 $"{actionType.Name} · {fieldName}");
             return NoContent();
@@ -205,6 +219,7 @@ namespace AGM_API.Controllers.Field
             action.FertilizerType = dto.FertilizerType;
             action.Variety = dto.Variety;
             action.SeasonId = dto.SeasonId;
+            action.CropId = dto.CropId;
 
             // Sync machines
             action.Machines.Clear();
@@ -348,7 +363,7 @@ namespace AGM_API.Controllers.Field
         string? Product, string? RegistrationNumber, string? Pest,
         double? Temperature, double? WindSpeed, string? Applicator,
         double? NContent, int? FertilizerType, string? Variety,
-        long? SeasonId,
+        long? SeasonId, long? CropId,
         List<ActionMachineInfo> Machines);
 
     public record UpsertFieldAction(
@@ -357,7 +372,7 @@ namespace AGM_API.Controllers.Field
         string? Product, string? RegistrationNumber, string? Pest,
         double? Temperature, double? WindSpeed, string? Applicator,
         double? NContent, int? FertilizerType, string? Variety,
-        long? SeasonId,
+        long? SeasonId, long? CropId,
         List<long>? MachineIds);
 
     public record FieldActionPhotoInfo(long Id, string FileName, string Url);

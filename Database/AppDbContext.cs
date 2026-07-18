@@ -214,6 +214,11 @@ namespace AGM_API.Database
                 .IsUnique()
                 .HasFilter("\"UserCode\" IS NOT NULL");
 
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.KeycloakSubject)
+                .IsUnique()
+                .HasFilter("\"KeycloakSubject\" IS NOT NULL");
+
             modelBuilder.Entity<Models.Farm.Farm>(e =>
             {
                 e.HasOne(x => x.FarmType)

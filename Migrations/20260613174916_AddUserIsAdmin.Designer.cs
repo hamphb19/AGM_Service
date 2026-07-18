@@ -3,6 +3,7 @@ using System;
 using AGM_API.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AGM_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260613174916_AddUserIsAdmin")]
+    partial class AddUserIsAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -555,9 +558,6 @@ namespace AGM_API.Migrations
                     b.Property<long?>("CreatedById")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("CropId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -604,8 +604,6 @@ namespace AGM_API.Migrations
                     b.HasIndex("ChangeById");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("CropId");
 
                     b.HasIndex("FieldId");
 
@@ -1090,9 +1088,6 @@ namespace AGM_API.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("KeycloakSubject")
-                        .HasColumnType("text");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
@@ -1105,10 +1100,6 @@ namespace AGM_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("KeycloakSubject")
-                        .IsUnique()
-                        .HasFilter("\"KeycloakSubject\" IS NOT NULL");
 
                     b.HasIndex("UserCode")
                         .IsUnique()
@@ -1372,10 +1363,6 @@ namespace AGM_API.Migrations
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("AGM_API.Models.Crop.Crop", "Crop")
-                        .WithMany()
-                        .HasForeignKey("CropId");
-
                     b.HasOne("AGM_API.Models.Field.Field", "Field")
                         .WithMany()
                         .HasForeignKey("FieldId")
@@ -1392,8 +1379,6 @@ namespace AGM_API.Migrations
                     b.Navigation("ChangeBy");
 
                     b.Navigation("CreatedBy");
-
-                    b.Navigation("Crop");
 
                     b.Navigation("Field");
 

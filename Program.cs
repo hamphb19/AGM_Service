@@ -37,36 +37,43 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<AGM_API.Services.AuthService>();
 builder.Services.AddScoped<AGM_API.Services.FarmAuthorizationService>();
 builder.Services.AddScoped<AGM_API.Services.ActivityLogService>();
-builder.Services.AddHttpClient("yahoo", c =>
+
+// -------- Keycloak (OIDC resource server) --------
+// The API no longer issues tokens; it validates access tokens minted by Keycloak.
+var keycloak = builder.Configuration.GetSection("Keycloak");
+var keycloakAuthority = keycloak["Authority"];   // e.g. https://agm-auth.up.railway.app/realms/agm
+var keycloakAudience = keycloak["Audience"] ?? "agm-api";
+if (string.IsNullOrWhiteSpace(keycloakAuthority))
+    throw new InvalidOperationException("Keycloak:Authority is not configured. Set it via environment variable Keycloak__Authority.");
+
+builder.Services.AddScoped<AGM_API.Services.KeycloakUserProvisioningService>();
+
+builder.Services.AddAuthorization(options =>
 {
-    c.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0");
-    c.Timeout = TimeSpan.FromSeconds(10);
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireClaim("isAdmin", "true"));
 });
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var jwtSecret = jwtSettings["Secret"];
-if (string.IsNullOrWhiteSpace(jwtSecret))
-    throw new InvalidOperationException("JwtSettings:Secret is not configured. Set it via environment variable JwtSettings__Secret.");
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
-})
+builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
+    options.Authority = keycloakAuthority;
+    options.Audience = keycloakAudience;
+    options.RequireHttpsMetadata = true;
+    // Keep the raw Keycloak claim names (sub, preferred_username, ...) instead of
+    // remapping them to the legacy Microsoft claim URIs.
+    options.MapInboundClaims = false;
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuer = true,
+        ValidIssuer = keycloakAuthority,
         ValidateAudience = true,
+        ValidAudience = keycloakAudience,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSecret))
+        NameClaimType = "preferred_username",
+        RoleClaimType = "roles",
     };
 });
 
@@ -125,6 +132,9 @@ app.UseCors("AllowFrontend");
 app.UseStaticFiles();
 
 app.UseAuthentication();
+// Map the Keycloak identity to a local User (auto-provision) and expose the
+// local user id as NameIdentifier so existing controllers keep working.
+app.UseMiddleware<AGM_API.Middleware.KeycloakUserMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
