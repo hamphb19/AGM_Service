@@ -49,6 +49,7 @@ if (string.IsNullOrWhiteSpace(keycloakAuthority))
     throw new InvalidOperationException("Keycloak:Authority is not configured. Set it via environment variable Keycloak__Authority.");
 
 builder.Services.AddScoped<AGM_API.Services.KeycloakUserProvisioningService>();
+builder.Services.AddScoped<Microsoft.AspNetCore.Authentication.IClaimsTransformation, AGM_API.Services.KeycloakClaimsTransformation>();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -132,9 +133,6 @@ app.UseCors("AllowFrontend");
 app.UseStaticFiles();
 
 app.UseAuthentication();
-// Map the Keycloak identity to a local User (auto-provision) and expose the
-// local user id as NameIdentifier so existing controllers keep working.
-app.UseMiddleware<AGM_API.Middleware.KeycloakUserMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
