@@ -21,7 +21,11 @@ namespace AGM_API.Services
 
         public async Task<User> ResolveOrCreateAsync(ClaimsPrincipal principal, string subject)
         {
+            // Read untracked: this runs on every request via claims transformation and
+            // must not leave a tracked User in the request's DbContext (would clash with
+            // the User the controller loads → "instance ... is already being tracked").
             var existing = await _context.Users
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.KeycloakSubject == subject);
             if (existing != null)
                 return existing;
@@ -33,30 +37,29 @@ namespace AGM_API.Services
             var firstName = principal.FindFirst("given_name")?.Value;
             var lastName = principal.FindFirst("family_name")?.Value;
 
-            // Link an existing local account (created before Keycloak) by e-mail.
-            if (!string.IsNullOrEmpty(email))
-            {
-                var byEmail = await _context.Users
-                    .FirstOrDefaultAsync(u => u.KeycloakSubject == null && u.Email == email);
-                if (byEmail != null)
-                {
-                    byEmail.KeycloakSubject = subject;
-                    await _context.SaveChangesAsync();
-                    return byEmail;
-                }
-            }
-
-            var user = new User
-            {
-                KeycloakSubject = subject,
-                Email = email,
-                Username = username,
-                UserCode = await GenerateUniqueUserCodeAsync(),
-            };
-            _context.Users.Add(user);
-
             try
             {
+                // Link an existing local account (created before Keycloak) by e-mail.
+                if (!string.IsNullOrEmpty(email))
+                {
+                    var byEmail = await _context.Users
+                        .FirstOrDefaultAsync(u => u.KeycloakSubject == null && u.Email == email);
+                    if (byEmail != null)
+                    {
+                        byEmail.KeycloakSubject = subject;
+                        await _context.SaveChangesAsync();
+                        return byEmail;
+                    }
+                }
+
+                var user = new User
+                {
+                    KeycloakSubject = subject,
+                    Email = email,
+                    Username = username,
+                    UserCode = await GenerateUniqueUserCodeAsync(),
+                };
+                _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
                 _context.Persons.Add(new Models.Person.Person
@@ -72,7 +75,14 @@ namespace AGM_API.Services
             {
                 // Concurrent first-request race: another request just created it.
                 _context.ChangeTracker.Clear();
-                return await _context.Users.FirstAsync(u => u.KeycloakSubject == subject);
+                return await _context.Users
+                    .AsNoTracking()
+                    .FirstAsync(u => u.KeycloakSubject == subject);
+            }
+            finally
+            {
+                // Never hand tracked provisioning entities to the controller.
+                _context.ChangeTracker.Clear();
             }
         }
 
