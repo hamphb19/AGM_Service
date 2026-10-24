@@ -36,7 +36,7 @@ namespace AGM_API.Controllers.Farm
         [HttpGet("farm/{farmId}")]
         public async Task<ActionResult<IEnumerable<FarmMemberInfo>>> GetMembers(long farmId)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(farmId, userId))
                 return Forbid();
 
@@ -62,7 +62,7 @@ namespace AGM_API.Controllers.Farm
         [HttpGet("farm/{farmId}/findByCode")]
         public async Task<ActionResult<UserInfo>> FindByCode(long farmId, [FromQuery] string code)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(farmId, userId))
                 return Forbid();
 
@@ -79,7 +79,7 @@ namespace AGM_API.Controllers.Farm
         [HttpPost("farm/{farmId}")]
         public async Task<IActionResult> AddMember(long farmId, [FromBody] AddMember dto)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(farmId, userId))
                 return Forbid();
 
@@ -121,7 +121,7 @@ namespace AGM_API.Controllers.Farm
         [HttpDelete("farm/{farmId}/person/{personId}")]
         public async Task<IActionResult> RemoveMember(long farmId, long personId)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(farmId, userId))
                 return Forbid();
 

@@ -31,7 +31,7 @@ namespace AGM_API.Controllers
         [HttpGet("me")]
         public async Task<ActionResult<ProfileInfo>> GetMe()
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             var user = await _context.Users
                 .AsNoTracking()
                 .Include(u => u.Person)
@@ -52,7 +52,7 @@ namespace AGM_API.Controllers
         [HttpPut("me")]
         public async Task<IActionResult> UpdateMe([FromBody] UpdateProfile dto)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             var user = await _context.Users
                 .Include(u => u.Person)
                 .FirstOrDefaultAsync(u => u.Id == userId);

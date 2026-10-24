@@ -808,6 +808,65 @@ namespace AGM_API.Migrations
                     b.ToTable("MachineModel");
                 });
 
+            modelBuilder.Entity("AGM_API.Models.Machine.MachineReminder", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("ChangeById")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CreatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("DueOperatingHours")
+                        .HasColumnType("numeric");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastCompletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("MachineId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("RepeatIntervalDays")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("RepeatIntervalHours")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChangeById");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("MachineId");
+
+                    b.ToTable("MachineReminder");
+                });
+
             modelBuilder.Entity("AGM_API.Models.Machine.MachineService", b =>
                 {
                     b.Property<long>("Id")
@@ -1499,6 +1558,31 @@ namespace AGM_API.Migrations
                     b.Navigation("MachineBrand");
 
                     b.Navigation("MachineType");
+                });
+
+            modelBuilder.Entity("AGM_API.Models.Machine.MachineReminder", b =>
+                {
+                    b.HasOne("AGM_API.Models.User", "ChangeBy")
+                        .WithMany()
+                        .HasForeignKey("ChangeById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AGM_API.Models.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AGM_API.Models.Machine.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChangeBy");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Machine");
                 });
 
             modelBuilder.Entity("AGM_API.Models.Machine.MachineService", b =>

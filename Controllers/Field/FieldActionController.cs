@@ -44,7 +44,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForFieldAsync(fieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -83,7 +83,7 @@ namespace AGM_API.Controllers.Field
             if (action == null) return NotFound();
 
             var farmId = await _auth.GetFarmIdForFieldAsync(action.FieldId);
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (farmId == null || !await _auth.IsMemberAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -106,7 +106,7 @@ namespace AGM_API.Controllers.Field
                 .FirstOrDefaultAsync();
             if (season == null) return NotFound("Season not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(season.FarmId, userId))
                 return Forbid();
 
@@ -134,7 +134,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForFieldAsync(fieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -199,7 +199,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForFieldAsync(action.FieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -246,7 +246,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForFieldAsync(action.FieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -268,7 +268,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForFieldAsync(action.FieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -295,7 +295,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForFieldAsync(action.FieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 
@@ -326,7 +326,7 @@ namespace AGM_API.Controllers.Field
             var farmId = await _auth.GetFarmIdForActionAsync(photo.FieldActionId);
             if (farmId == null) return NotFound("Action not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 

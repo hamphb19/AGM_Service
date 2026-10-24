@@ -66,6 +66,7 @@ namespace AGM_API.Database
         public DbSet<Models.Machine.MachineBrand> MachineBrands { get; set; }
         public DbSet<Models.Machine.MachineModel> MachineModels { get; set; }
         public DbSet<Models.Machine.MachineService> MachineServices { get; set; }
+        public DbSet<Models.Machine.MachineReminder> MachineReminders { get; set; }
 
         #endregion
 

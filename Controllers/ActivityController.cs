@@ -24,7 +24,7 @@ namespace AGM_API.Controllers
         [HttpGet("farm/{farmId}")]
         public async Task<IActionResult> GetFarmActivity(long farmId, [FromQuery] int limit = 50)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(farmId, userId))
                 return Forbid();
 

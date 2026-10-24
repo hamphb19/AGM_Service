@@ -38,7 +38,7 @@ namespace AGM_API.Controllers.Farm
         [HttpGet]
         public async Task<ActionResult<GetAllFarmsSimple>> GetFarms()
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
 
             var person = await _context.Persons
                 .AsNoTracking()
@@ -71,7 +71,7 @@ namespace AGM_API.Controllers.Farm
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFarm(long id)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(id, userId))
                 return Forbid();
 
@@ -98,7 +98,7 @@ namespace AGM_API.Controllers.Farm
             if (string.IsNullOrWhiteSpace(dto.Name) || string.IsNullOrWhiteSpace(dto.ShortName))
                 return BadRequest("Name and ShortName are required.");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
 
             var personId = await _context.Persons
                 .AsNoTracking()
@@ -176,7 +176,7 @@ namespace AGM_API.Controllers.Farm
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFarm(long id, [FromBody] UpdateFarm dto)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(id, userId)) return Forbid();
 
             var farm = await _context.Farms.FindAsync(id);
@@ -209,7 +209,7 @@ namespace AGM_API.Controllers.Farm
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadLogo(long id, IFormFile file)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(id, userId)) return Forbid();
 
             var farm = await _context.Farms.FindAsync(id);
@@ -230,7 +230,7 @@ namespace AGM_API.Controllers.Farm
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFarm(long id)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(id, userId)) return Forbid();
 
             var farm = await _context.Farms.FindAsync(id);

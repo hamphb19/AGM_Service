@@ -28,7 +28,7 @@ namespace AGM_API.Controllers.Field
         [HttpGet("farm/{farmId}")]
         public async Task<ActionResult<IEnumerable<GetFieldDetail>>> GetFields(long farmId, [FromQuery] bool simple = false)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(farmId, userId))
                 return Forbid();
 
@@ -68,7 +68,7 @@ namespace AGM_API.Controllers.Field
 
             if (field == null) return NotFound();
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(field.FarmId, userId))
                 return Forbid();
 
@@ -81,7 +81,7 @@ namespace AGM_API.Controllers.Field
         [HttpPost("farm/{farmId}")]
         public async Task<ActionResult<GetFieldDetail>> CreateField(long farmId, [FromBody] CreateField dto)
         {
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(farmId, userId))
                 return Forbid();
 
@@ -107,7 +107,7 @@ namespace AGM_API.Controllers.Field
             var field = await _context.Fields.FindAsync(id);
             if (field == null) return NotFound();
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(field.FarmId, userId))
                 return Forbid();
 
@@ -126,7 +126,7 @@ namespace AGM_API.Controllers.Field
                 .FirstOrDefaultAsync(f => f.Id == id);
             if (field == null) return NotFound();
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.CanWriteAsync(field.FarmId, userId))
                 return Forbid();
 
@@ -151,7 +151,7 @@ namespace AGM_API.Controllers.Field
             var field = await _context.Fields.FindAsync(id);
             if (field == null) return NotFound();
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsAdminAsync(field.FarmId, userId))
                 return Forbid();
 

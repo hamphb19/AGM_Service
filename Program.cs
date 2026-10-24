@@ -134,6 +134,21 @@ var app = builder.Build();
 
 app.UseForwardedHeaders();
 
+// Turn a missing/unresolvable auth claim (e.g. User.GetUserId() when KeycloakClaimsTransformation
+// couldn't resolve a subject) into a clean 401 instead of an unhandled 500.
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next(context);
+    }
+    catch (UnauthorizedAccessException)
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        await context.Response.WriteAsJsonAsync(new { error = "Unauthorized" });
+    }
+});
+
 // Auto-migrate + seed
 using (var scope = app.Services.CreateScope())
 {

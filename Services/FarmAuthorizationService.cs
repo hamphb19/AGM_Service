@@ -38,6 +38,12 @@ namespace AGM_API.Services
                 .Select(s => (long?)s.Machine.FarmId)
                 .FirstOrDefaultAsync();
 
+        public async Task<long?> GetFarmIdForMachineReminderAsync(long reminderId) =>
+            await _context.MachineReminders
+                .Where(r => r.Id == reminderId)
+                .Select(r => (long?)r.Machine.FarmId)
+                .FirstOrDefaultAsync();
+
         public async Task<long?> GetFarmIdForTaskAsync(long taskId) =>
             await _context.Tasks
                 .Where(t => t.Id == taskId)

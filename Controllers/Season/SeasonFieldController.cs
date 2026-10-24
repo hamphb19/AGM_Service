@@ -115,7 +115,7 @@ namespace AGM_API.Controllers.Season
             var farmId = await _auth.GetFarmIdForFieldAsync(fieldId);
             if (farmId == null) return NotFound("Field not found");
 
-            var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var userId = User.GetUserId();
             if (!await _auth.IsMemberAsync(farmId.Value, userId))
                 return Forbid();
 
