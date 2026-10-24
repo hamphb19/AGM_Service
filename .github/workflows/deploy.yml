@@ -1,10 +1,25 @@
 name: Build & Deploy
 
+# Stages:
+#   Pull Request        -> nur Build
+#   Push auf develop    -> Build + Deploy auf QA (Railway-Umgebung "qa")
+#   Push auf main       -> Build + Deploy auf Production, erst nach Freigabe
+#                          (GitHub-Environment "production" mit "Required reviewers")
+#
+# Secrets:
+#   RAILWAY_TOKEN_QA  -> Railway-Projekt-Token der QA-Umgebung   (GitHub-Environment "qa")
+#   RAILWAY_TOKEN     -> Railway-Projekt-Token der Prod-Umgebung (GitHub-Environment "production" oder Repo-Secret)
+
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -24,11 +39,53 @@ jobs:
       - name: Build
         run: dotnet build --no-restore -c Release
 
-  deploy:
-    name: Deploy to Railway
+      - name: Test
+        # Läuft, sobald es ein Testprojekt gibt (z. B. AGM_API.Tests).
+        run: |
+          if ls *.Tests/*.csproj 1> /dev/null 2>&1 || ls ../*.Tests/*.csproj 1> /dev/null 2>&1; then
+            dotnet test -c Release
+          else
+            echo "Noch keine Tests vorhanden."
+          fi
+
+  deploy-qa:
+    name: Deploy to QA
     needs: build
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    environment:
+      name: qa
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check QA token
+        id: token
+        run: |
+          if [ -z "${{ secrets.RAILWAY_TOKEN_QA }}" ]; then
+            echo "::warning::RAILWAY_TOKEN_QA fehlt – QA-Deploy übersprungen. Siehe README, Abschnitt Deployment."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Railway CLI
+        if: steps.token.outputs.present == 'true'
+        run: npm install -g @railway/cli
+
+      - name: Deploy
+        if: steps.token.outputs.present == 'true'
+        run: railway up --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN_QA }}
+
+  deploy-prod:
+    name: Deploy to Production
+    needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://agmservice-production.up.railway.app/health
     steps:
       - uses: actions/checkout@v4
 

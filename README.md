@@ -54,9 +54,26 @@ Services/      Berechtigungen, Dateien, Keycloak, Aktivitäts-Log, Seed-Daten
 
 ## Deployment (Railway)
 
-Push auf `main` → GitHub Actions (`.github/workflows/deploy.yml`, Secret `RAILWAY_TOKEN`) → `railway up`.
+`.github/workflows/deploy.yml`:
 
-Auf Railway einstellen:
+| Auslöser | Ablauf |
+|---|---|
+| Pull Request | Build (+ Tests) |
+| Push auf `develop` | Build → Deploy auf QA (übersprungen, solange `RAILWAY_TOKEN_QA` fehlt) |
+| Push auf `main` | Build → wartet auf Freigabe → Deploy auf Production |
+
+Einmalig einrichten:
+
+1. **Railway:** im Projekt eine zweite Umgebung `qa` anlegen (Environments → New → Duplicate production),
+   dort eine eigene Datenbank verwenden und `ASPNETCORE_ENVIRONMENT=QA` setzen. Für jede Umgebung einen
+   Projekt-Token erzeugen (Settings → Tokens).
+2. **GitHub** (Repo → Settings → Environments):
+   - Environment `qa` mit Secret `RAILWAY_TOKEN_QA`
+   - Environment `production` mit Secret `RAILWAY_TOKEN` und **Required reviewers** (du selbst) – dann
+     wartet jeder Prod-Deploy auf deinen Klick „Approve“
+3. Branch `develop` als Standard-Branch für Pull Requests verwenden; `main` mit Branch-Protection schützen.
+
+Auf Railway (je Umgebung) einstellen:
 
 1. **Volume** auf `/app/data` mounten – sonst gehen hochgeladene Fotos bei jedem Deploy verloren.
 2. Variablen: `ConnectionStrings__Local`, `Keycloak__Authority`, `Keycloak__AdminClientId`, `Keycloak__AdminClientSecret`,
