@@ -1,5 +1,6 @@
 ﻿using AGM_API.Controllers.Farm.Records;
 using AGM_API.Database;
+using AGM_API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,15 +13,19 @@ namespace AGM_API.Controllers.Farm
     public class FarmAnimalController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
 
-        public FarmAnimalController(AppDbContext context)
+        public FarmAnimalController(AppDbContext context, FarmAuthorizationService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
         [HttpGet("{farmId}/animals")]
         public async Task<ActionResult> GetFarmAnimals(long farmId)
         {
+            if (!await _auth.IsMemberAsync(farmId, User.GetUserId())) return Forbid();
+
             var farm = await _context.Farms.FindAsync(farmId);
 
             if (farm == null)
@@ -46,6 +51,8 @@ namespace AGM_API.Controllers.Farm
         [HttpPost("{farmId}/animals")]
         public async Task<ActionResult> AddAnimalToFarm(long farmId, [FromBody] AddAnimalToFarm dto)
         {
+            if (!await _auth.CanWriteAsync(farmId, User.GetUserId())) return Forbid();
+
             var farm = await _context.Farms.FindAsync(farmId);
             if (farm == null)
                 return NotFound("Farm not found");

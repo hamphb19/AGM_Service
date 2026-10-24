@@ -1,4 +1,5 @@
 using AGM_API.Database;
+using AGM_API.Services;
 using AGM_API.Models.Machine;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace AGM_API.Controllers.Machine
     public class MachineController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
 
-        public MachineController(AppDbContext context)
+        public MachineController(AppDbContext context, FarmAuthorizationService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
         [HttpGet("types")]
@@ -68,6 +71,10 @@ namespace AGM_API.Controllers.Machine
         [HttpGet("{id}")]
         public async Task<ActionResult<MachineInfo>> GetMachine(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForMachineAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var machine = await _context.Machines
                 .AsNoTracking()
                 .Include(m => m.MachineType)
@@ -84,7 +91,8 @@ namespace AGM_API.Controllers.Machine
                 machine.YearOfManufacture,
                 machine.LicensePlate,
                 machine.Notes,
-                (int)machine.Status
+                (int)machine.Status,
+                machine.OperatingHours
             ));
         }
 
@@ -96,6 +104,7 @@ namespace AGM_API.Controllers.Machine
                 .Select(f => (long?)f.FarmId)
                 .FirstOrDefaultAsync();
             if (farmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(farmId.Value, User.GetUserId())) return Forbid();
 
             var machines = await _context.Machines
                 .AsNoTracking()
@@ -107,7 +116,7 @@ namespace AGM_API.Controllers.Machine
                     m.Id, m.Name,
                     new MachineTypeInfo(m.MachineType.Id, m.MachineType.Name, m.MachineType.ShortName),
                     m.MachineBrand != null ? new MachineBrandInfo(m.MachineBrand.Id, m.MachineBrand.Name, m.MachineBrand.ShortName) : null,
-                    m.YearOfManufacture, m.LicensePlate, m.Notes, (int)m.Status
+                    m.YearOfManufacture, m.LicensePlate, m.Notes, (int)m.Status, m.OperatingHours
                 ))
                 .ToListAsync();
             return Ok(machines);
@@ -116,6 +125,8 @@ namespace AGM_API.Controllers.Machine
         [HttpGet("farm/{farmId}")]
         public async Task<ActionResult<IEnumerable<MachineInfo>>> GetMachines(long farmId)
         {
+            if (!await _auth.IsMemberAsync(farmId, User.GetUserId())) return Forbid();
+
             var machines = await _context.Machines
                 .AsNoTracking()
                 .Where(m => m.FarmId == farmId)
@@ -130,7 +141,8 @@ namespace AGM_API.Controllers.Machine
                     m.YearOfManufacture,
                     m.LicensePlate,
                     m.Notes,
-                    (int)m.Status
+                    (int)m.Status,
+                    m.OperatingHours
                 ))
                 .ToListAsync();
             return Ok(machines);
@@ -139,6 +151,8 @@ namespace AGM_API.Controllers.Machine
         [HttpPost("farm/{farmId}")]
         public async Task<IActionResult> CreateMachine(long farmId, [FromBody] UpsertMachine dto)
         {
+            if (!await _auth.CanWriteAsync(farmId, User.GetUserId())) return Forbid();
+
             var farm = await _context.Farms.FindAsync(farmId);
             if (farm == null) return NotFound("Farm not found");
 
@@ -162,6 +176,7 @@ namespace AGM_API.Controllers.Machine
                 LicensePlate = dto.LicensePlate?.Trim(),
                 Notes = dto.Notes?.Trim(),
                 Status = (MachineStatus)dto.Status,
+                OperatingHours = dto.OperatingHours,
             });
 
             await _context.SaveChangesAsync();
@@ -171,6 +186,10 @@ namespace AGM_API.Controllers.Machine
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMachine(long id, [FromBody] UpsertMachine dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForMachineAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var machine = await _context.Machines.FindAsync(id);
             if (machine == null) return NotFound();
 
@@ -191,6 +210,7 @@ namespace AGM_API.Controllers.Machine
             machine.LicensePlate = dto.LicensePlate?.Trim();
             machine.Notes = dto.Notes?.Trim();
             machine.Status = (MachineStatus)dto.Status;
+            machine.OperatingHours = dto.OperatingHours;
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -199,6 +219,10 @@ namespace AGM_API.Controllers.Machine
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMachine(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForMachineAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var machine = await _context.Machines.FindAsync(id);
             if (machine == null) return NotFound();
             _context.Machines.Remove(machine);
@@ -210,6 +234,6 @@ namespace AGM_API.Controllers.Machine
     public record MachineTypeInfo(long Id, string Name, string ShortName);
     public record MachineBrandInfo(long Id, string Name, string ShortName);
     public record MachineModelInfo(long Id, string Name, string TypeShortName, string? BrandShortName);
-    public record MachineInfo(long Id, string Name, MachineTypeInfo MachineType, MachineBrandInfo? MachineBrand, int? YearOfManufacture, string? LicensePlate, string? Notes, int Status);
-    public record UpsertMachine(string Name, string MachineTypeShortName, string? MachineBrandShortName, int? YearOfManufacture, string? LicensePlate, string? Notes, int Status);
+    public record MachineInfo(long Id, string Name, MachineTypeInfo MachineType, MachineBrandInfo? MachineBrand, int? YearOfManufacture, string? LicensePlate, string? Notes, int Status, decimal? OperatingHours);
+    public record UpsertMachine(string Name, string MachineTypeShortName, string? MachineBrandShortName, int? YearOfManufacture, string? LicensePlate, string? Notes, int Status, decimal? OperatingHours);
 }

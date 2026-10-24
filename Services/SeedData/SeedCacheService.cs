@@ -1,18 +1,17 @@
-﻿using AGM_API.Controllers.Records;
+using AGM_API.Controllers.Records;
 using AGM_API.Database;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
-namespace AGM_API.Services.KnownObjects
+namespace AGM_API.Services.SeedData
 {
-    public static class KnownCacheService
+    public static class SeedCacheService
     {
         private static Dictionary<string, MemberRoleReference> _memberroles = new();
         private static Dictionary<long, MemberRoleReference> _memberrolesByIdCache = new();
         private static Dictionary<string, CropReference> _crops = new();
         private static Dictionary<string, CropTypeReference> _croptypes = new();
         private static Dictionary<long, CropReference> _cropsByIdCache = new();
-        
+
         private static bool _initialized = false;
 
         public static void Initialize(IServiceProvider services)
@@ -22,45 +21,28 @@ namespace AGM_API.Services.KnownObjects
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             try
             {
-
-                // ---------- MemberRoles ---------- //
-                foreach (var kvp in KnownObjectsService.MemberRoleKeyToShortName)
+                foreach (var kvp in SeedDataService.MemberRoleKeyToShortName)
                 {
-                    var type = context.MemberRoles
-                        .AsNoTracking()
-                        .FirstOrDefault(x => x.ShortName == kvp.Value);
-
-                    if (type != null)
+                    var role = context.MemberRoles.AsNoTracking().FirstOrDefault(x => x.ShortName == kvp.Value);
+                    if (role != null)
                     {
-                        var typeRef = new MemberRoleReference(type.Id, type.Name, type.ShortName);
-                        _memberroles[kvp.Key] = typeRef;
-                        _memberrolesByIdCache[type.Id] = typeRef;
-                    }
-                    // LOG would be good IDea
-
-                }
-
-                // ---------- CropTypes ---------- //
-                foreach (var kvp in KnownObjectsService.CropTypeKeyToShortName)
-                {
-                    var type = context.CropTypes
-                        .AsNoTracking()
-                        .FirstOrDefault(x => x.ShortName == kvp.Value);
-
-                    if (type != null)
-                    {
-                        var typeRef = new CropTypeReference(type.Id, type.Name, type.ShortName);
+                        var roleRef = new MemberRoleReference(role.Id, role.Name, role.ShortName);
+                        _memberroles[kvp.Key] = roleRef;
+                        _memberrolesByIdCache[role.Id] = roleRef;
                     }
                 }
 
-                // ---------- Crops ---------- //
-                foreach(var kvp in KnownObjectsService.CropKeyToShortName)
+                foreach (var kvp in SeedDataService.CropTypeKeyToShortName)
                 {
-                    var crop = context.Crops
-                        .AsNoTracking()
-                        .FirstOrDefault(x => x.ShortName == kvp.Value);
+                    var type = context.CropTypes.AsNoTracking().FirstOrDefault(x => x.ShortName == kvp.Value);
+                    if (type != null)
+                        _croptypes[kvp.Key] = new CropTypeReference(type.Id, type.Name, type.ShortName);
+                }
 
-                    if(crop != null)
+                foreach (var kvp in SeedDataService.CropKeyToShortName)
+                {
+                    var crop = context.Crops.AsNoTracking().FirstOrDefault(x => x.ShortName == kvp.Value);
+                    if (crop != null)
                     {
                         var cropRef = new CropReference(crop.Id, crop.Name, crop.ShortName);
                         _crops[kvp.Key] = cropRef;
@@ -70,13 +52,12 @@ namespace AGM_API.Services.KnownObjects
 
                 _initialized = true;
             }
-            catch (Exception ex)
+            catch
             {
                 // log
             }
         }
 
-        // KnownObjects
         public static class MemberRoles
         {
             public static MemberRoleReference Administrator => _memberroles["AD"];
@@ -104,6 +85,5 @@ namespace AGM_API.Services.KnownObjects
 
             public static CropReference? GetById(long id) => _cropsByIdCache.GetValueOrDefault(id);
         }
-
     }
 }

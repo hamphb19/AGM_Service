@@ -1,5 +1,5 @@
 using AGM_API.Database;
-using AGM_API.Services.KnownObjects;
+using AGM_API.Services.SeedData;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,14 +39,27 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AGM_API.Services.FarmAuthorizationService>();
 builder.Services.AddScoped<AGM_API.Services.ActivityLogService>();
+builder.Services.AddSingleton<AGM_API.Services.FileStorageService>();
+builder.Services.AddScoped<AGM_API.Services.AccountDeletionService>();
+builder.Services.AddScoped<AGM_API.Services.KeycloakAdminService>();
+builder.Services.AddHttpClient();
 
-// -------- Keycloak (OIDC resource server) --------
-// The API no longer issues tokens; it validates access tokens minted by Keycloak.
+// Railway terminiert TLS vor der App → Schema/Host aus X-Forwarded-* übernehmen (für korrekte https-URLs).
+builder.Services.Configure<Microsoft.AspNetCore.Builder.ForwardedHeadersOptions>(o =>
+{
+    o.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+                       | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedHost;
+    o.KnownNetworks.Clear();
+    o.KnownProxies.Clear();
+});
+
+// -------- Authentication --------
+// Keycloak:Enabled = true  -> validate Keycloak access tokens (QA / Prod).
+// Keycloak:Enabled = false -> local dev, no Keycloak needed (DevAuthHandler
+//                             authenticates every request as a fixed dev user).
 var keycloak = builder.Configuration.GetSection("Keycloak");
-var keycloakAuthority = keycloak["Authority"];   // e.g. https://agm-auth.up.railway.app/realms/agm
+var keycloakEnabled = keycloak.GetValue("Enabled", true);
 var keycloakAudience = keycloak["Audience"] ?? "agm-api";
-if (string.IsNullOrWhiteSpace(keycloakAuthority))
-    throw new InvalidOperationException("Keycloak:Authority is not configured. Set it via environment variable Keycloak__Authority.");
 
 builder.Services.AddScoped<AGM_API.Services.KeycloakUserProvisioningService>();
 builder.Services.AddScoped<Microsoft.AspNetCore.Authentication.IClaimsTransformation, AGM_API.Services.KeycloakClaimsTransformation>();
@@ -57,26 +70,40 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("isAdmin", "true"));
 });
 
-builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
+if (keycloakEnabled)
 {
-    options.Authority = keycloakAuthority;
-    options.Audience = keycloakAudience;
-    options.RequireHttpsMetadata = true;
-    // Keep the raw Keycloak claim names (sub, preferred_username, ...) instead of
-    // remapping them to the legacy Microsoft claim URIs.
-    options.MapInboundClaims = false;
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    var keycloakAuthority = keycloak["Authority"];   // e.g. https://agm-auth.up.railway.app/realms/agm
+    if (string.IsNullOrWhiteSpace(keycloakAuthority))
+        throw new InvalidOperationException("Keycloak:Authority is not configured. Set it via environment variable Keycloak__Authority (or set Keycloak:Enabled=false for local dev).");
+
+    builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidIssuer = keycloakAuthority,
-        ValidateAudience = true,
-        ValidAudience = keycloakAudience,
-        ValidateLifetime = true,
-        NameClaimType = "preferred_username",
-        RoleClaimType = "roles",
-    };
-});
+        options.Authority = keycloakAuthority;
+        options.Audience = keycloakAudience;
+        options.RequireHttpsMetadata = true;
+        // Keep the raw Keycloak claim names (sub, preferred_username, ...) instead of
+        // remapping them to the legacy Microsoft claim URIs.
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = keycloakAuthority,
+            ValidateAudience = true,
+            ValidAudience = keycloakAudience,
+            ValidateLifetime = true,
+            NameClaimType = "preferred_username",
+            RoleClaimType = "roles",
+        };
+    });
+}
+else
+{
+    Console.WriteLine("⚠ Keycloak DISABLED (Keycloak:Enabled=false) — using local DevAuth. Do NOT use in production.");
+    builder.Services.AddAuthentication(AGM_API.Services.Auth.DevAuthHandler.SchemeName)
+        .AddScheme<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions, AGM_API.Services.Auth.DevAuthHandler>(
+            AGM_API.Services.Auth.DevAuthHandler.SchemeName, null);
+}
 
 // -------- HttpContextAccessor --------
 builder.Services.AddCors(opts =>
@@ -105,16 +132,21 @@ builder.Services.AddDbContext<AppDbContext>((sp, opts) =>
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
+
 // Auto-migrate + seed
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
 
-    var xml = Path.Combine(AppContext.BaseDirectory, "Services", "KnownObjects", "KnownObjects.xml");
-    KnownObjectsService.LoadFromKnownObjectsXml(context, xml);
+    var seedPath = Path.Combine(AppContext.BaseDirectory, "Services", "SeedData", "SeedData.json");
+    SeedDataService.LoadFromJson(context, seedPath);
 
-    KnownCacheService.Initialize(app.Services);
+    SeedCacheService.Initialize(app.Services);
+
+    // Upload-Verzeichnis anlegen und alte Dateien aus wwwroot/uploads einmalig übernehmen.
+    _ = scope.ServiceProvider.GetRequiredService<AGM_API.Services.FileStorageService>();
 }
 
 // Configure the HTTP request pipeline.

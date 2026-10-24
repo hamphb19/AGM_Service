@@ -19,11 +19,13 @@ namespace AGM_API.Controllers.Task
     public class TaskController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
         private readonly ActivityLogService _activity;
 
-        public TaskController(AppDbContext context, ActivityLogService activity)
+        public TaskController(AppDbContext context, ActivityLogService activity, FarmAuthorizationService auth)
         {
             _context = context;
+            _auth = auth;
             _activity = activity;
         }
 
@@ -33,11 +35,14 @@ namespace AGM_API.Controllers.Task
               [FromQuery] long? assignedToId,
               [FromQuery] Models.Task.TaskStatus? status)
         {
+            var userFarmIds = await _auth.GetFarmIdsForUserAsync(User.GetUserId());
+
             var query = _context.Tasks
                 .AsNoTracking()
                 .Include(t => t.Season)
                 .Include(t => t.Fields).ThenInclude(tf => tf.Field)
                 .Include(t => t.AssignedTo)
+                .Where(t => userFarmIds.Contains(t.FarmId))
                 .AsQueryable();
 
             if (seasonId.HasValue)
@@ -61,6 +66,8 @@ namespace AGM_API.Controllers.Task
             long farmId,
             [FromQuery] bool overdueOnly = false)
         {
+            if (!await _auth.IsMemberAsync(farmId, User.GetUserId())) return Forbid();
+
             var query = _context.Tasks
                 .AsNoTracking()
                 .Include(t => t.Season)
@@ -80,6 +87,10 @@ namespace AGM_API.Controllers.Task
         [HttpGet("{id}")]
         public async Task<ActionResult<GetTaskSimple>> GetTask(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForTaskAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var task = await _context.Tasks
                 .AsNoTracking()
                 .Include(t => t.Season)
@@ -96,6 +107,10 @@ namespace AGM_API.Controllers.Task
         [HttpPost]
         public async Task<ActionResult> CreateTask([FromBody] CreateTask dto)
         {
+            if (!await _auth.CanWriteAsync(dto.FarmId, User.GetUserId())) return Forbid();
+            var refError = await _auth.ValidateTaskReferencesAsync(dto.FarmId, dto.SeasonId, dto.FieldIds, dto.AssignedToId);
+            if (refError != null) return BadRequest(refError);
+
             if (string.IsNullOrWhiteSpace(dto.Name))
                 return BadRequest("Title is required");
 
@@ -131,6 +146,10 @@ namespace AGM_API.Controllers.Task
         [HttpPatch("{id}/status")]
         public async Task<ActionResult> PatchStatus(long id, [FromBody] PatchTaskStatus dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForTaskAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
             if (task == null) return NotFound();
             task.Status = dto.Status;
@@ -143,6 +162,12 @@ namespace AGM_API.Controllers.Task
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateTask(long id, [FromBody] UpdateTask dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForTaskAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+            var refError = await _auth.ValidateTaskReferencesAsync(guardFarmId.Value, dto.SeasonId, dto.FieldIds, dto.AssignedToId);
+            if (refError != null) return BadRequest(refError);
+
             var task = await _context.Tasks
                 .Include(t => t.Season)
                 .Include(t => t.Fields)
@@ -171,6 +196,10 @@ namespace AGM_API.Controllers.Task
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTask(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForTaskAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var task = await _context.Tasks.FindAsync(id);
             if (task == null) return NotFound();
             _context.Tasks.Remove(task);

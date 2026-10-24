@@ -1,0 +1,1771 @@
+﻿{
+    "farmTypes":  [
+                      {
+                          "key":  "FT_ACK",
+                          "name":  "Ackerbau",
+                          "shortName":  "ACK"
+                      },
+                      {
+                          "key":  "FT_VZT",
+                          "name":  "Viehzucht",
+                          "shortName":  "VZT"
+                      },
+                      {
+                          "key":  "FT_WIN",
+                          "name":  "Weinbau",
+                          "shortName":  "WIN"
+                      },
+                      {
+                          "key":  "FT_OBT",
+                          "name":  "Obstbau",
+                          "shortName":  "OBT"
+                      },
+                      {
+                          "key":  "FT_MIL",
+                          "name":  "Milchwirtschaft",
+                          "shortName":  "MIL"
+                      },
+                      {
+                          "key":  "FT_GMS",
+                          "name":  "Gemüsebau",
+                          "shortName":  "GMS"
+                      },
+                      {
+                          "key":  "FT_FOR",
+                          "name":  "Forstwirtschaft",
+                          "shortName":  "FOR"
+                      },
+                      {
+                          "key":  "FT_GEM",
+                          "name":  "Gemischtbetrieb",
+                          "shortName":  "GEM"
+                      }
+                  ],
+    "memberRoles":  [
+                        {
+                            "key":  "AdminMemberRole",
+                            "name":  "Administrator",
+                            "shortName":  "AD"
+                        },
+                        {
+                            "key":  "ManagerMemberRole",
+                            "name":  "Manager",
+                            "shortName":  "MN"
+                        },
+                        {
+                            "key":  "WorkerMemberRole",
+                            "name":  "Worker",
+                            "shortName":  "WR"
+                        },
+                        {
+                            "key":  "ViewerMemberRole",
+                            "name":  "Viewer",
+                            "shortName":  "VW"
+                        }
+                    ],
+    "cropTypes":  [
+                      {
+                          "key":  "BarleyCropType",
+                          "name":  "Barley",
+                          "shortName":  "BAR"
+                      },
+                      {
+                          "key":  "MaizeCropType",
+                          "name":  "Corn (Maize)",
+                          "shortName":  "MAI"
+                      },
+                      {
+                          "key":  "WheatCropType",
+                          "name":  "Wheat",
+                          "shortName":  "WHT"
+                      },
+                      {
+                          "key":  "SoybeanCropType",
+                          "name":  "Soybean",
+                          "shortName":  "SOY"
+                      },
+                      {
+                          "key":  "PumpkinCropType",
+                          "name":  "Pumpkin",
+                          "shortName":  "PMP"
+                      },
+                      {
+                          "key":  "OatCropType",
+                          "name":  "Oat",
+                          "shortName":  "OAT"
+                      }
+                  ],
+    "crops":  [
+                  {
+                      "key":  "MelissaMaizeCrop",
+                      "name":  "Melissa",
+                      "shortName":  "MLS",
+                      "cropTypeShortName":  "MAI"
+                  },
+                  {
+                      "key":  "AmbitioMaizeCrop",
+                      "name":  "Ambitio",
+                      "shortName":  "AMB",
+                      "cropTypeShortName":  "MAI"
+                  },
+                  {
+                      "key":  "AstronautoMaizeCrop",
+                      "name":  "Astronauto",
+                      "shortName":  "AST",
+                      "cropTypeShortName":  "MAI"
+                  },
+                  {
+                      "key":  "WinterWheatCrop",
+                      "name":  "Winter Wheat",
+                      "shortName":  "WWH",
+                      "cropTypeShortName":  "WHT"
+                  }
+              ],
+    "fieldActionTypes":  [
+                             {
+                                 "key":  "SowingFieldActionType",
+                                 "name":  "Sowing",
+                                 "shortName":  "SOW"
+                             },
+                             {
+                                 "key":  "FertilizingFieldActionType",
+                                 "name":  "Fertilizing",
+                                 "shortName":  "FRT"
+                             },
+                             {
+                                 "key":  "PlantProtectionFieldActionType",
+                                 "name":  "Plant Protection",
+                                 "shortName":  "PPR"
+                             },
+                             {
+                                 "key":  "HarvestFieldActionType",
+                                 "name":  "Harvest",
+                                 "shortName":  "HRV"
+                             },
+                             {
+                                 "key":  "SoilCultivationFieldActionType",
+                                 "name":  "Soil Cultivation",
+                                 "shortName":  "SCT"
+                             },
+                             {
+                                 "key":  "IrrigationFieldActionType",
+                                 "name":  "Irrigation",
+                                 "shortName":  "IRR"
+                             },
+                             {
+                                 "key":  "OtherFieldActionType",
+                                 "name":  "Other",
+                                 "shortName":  "OTH"
+                             }
+                         ],
+    "machineTypes":  [
+                         {
+                             "key":  "TractorMachineType",
+                             "name":  "Traktor",
+                             "shortName":  "TRC"
+                         },
+                         {
+                             "key":  "CombineMachineType",
+                             "name":  "Mähdrescher",
+                             "shortName":  "CMB"
+                         },
+                         {
+                             "key":  "PlowMachineType",
+                             "name":  "Pflug",
+                             "shortName":  "PLW"
+                         },
+                         {
+                             "key":  "SprayerMachineType",
+                             "name":  "Feldspritze",
+                             "shortName":  "SPR"
+                         },
+                         {
+                             "key":  "SeederMachineType",
+                             "name":  "Sämaschine",
+                             "shortName":  "SWR"
+                         },
+                         {
+                             "key":  "FertilizerSpreaderMachineType",
+                             "name":  "Düngerstreuer",
+                             "shortName":  "FTS"
+                         },
+                         {
+                             "key":  "DiscHarrowMachineType",
+                             "name":  "Scheibenegge",
+                             "shortName":  "DSC"
+                         },
+                         {
+                             "key":  "TrailerMachineType",
+                             "name":  "Anhänger",
+                             "shortName":  "TRL"
+                         },
+                         {
+                             "key":  "GeneralMachineType",
+                             "name":  "Sonstiges",
+                             "shortName":  "GEN"
+                         }
+                     ],
+    "machineBrands":  [
+                          {
+                              "key":  "JohnDeereBrand",
+                              "name":  "John Deere",
+                              "shortName":  "JD"
+                          },
+                          {
+                              "key":  "CLAASBrand",
+                              "name":  "CLAAS",
+                              "shortName":  "CLS"
+                          },
+                          {
+                              "key":  "FendtBrand",
+                              "name":  "Fendt",
+                              "shortName":  "FDT"
+                          },
+                          {
+                              "key":  "NewHollandBrand",
+                              "name":  "New Holland",
+                              "shortName":  "NH"
+                          },
+                          {
+                              "key":  "MasseyFergusonBrand",
+                              "name":  "Massey Ferguson",
+                              "shortName":  "MF"
+                          },
+                          {
+                              "key":  "DeutzFahrBrand",
+                              "name":  "Deutz-Fahr",
+                              "shortName":  "DAF"
+                          },
+                          {
+                              "key":  "SteyrBrand",
+                              "name":  "Steyr",
+                              "shortName":  "STY"
+                          },
+                          {
+                              "key":  "KubotaBrand",
+                              "name":  "Kubota",
+                              "shortName":  "KBT"
+                          },
+                          {
+                              "key":  "LindnerBrand",
+                              "name":  "Lindner",
+                              "shortName":  "LDN"
+                          },
+                          {
+                              "key":  "CaseIHBrand",
+                              "name":  "Case IH",
+                              "shortName":  "CSH"
+                          },
+                          {
+                              "key":  "ValtraBrand",
+                              "name":  "Valtra",
+                              "shortName":  "VLT"
+                          },
+                          {
+                              "key":  "SameBrand",
+                              "name":  "Same",
+                              "shortName":  "SAM"
+                          },
+                          {
+                              "key":  "JCBBrand",
+                              "name":  "JCB",
+                              "shortName":  "JCB"
+                          },
+                          {
+                              "key":  "OtherBrand",
+                              "name":  "Sonstige",
+                              "shortName":  "OTH"
+                          }
+                      ],
+    "stallTypes":  [
+                       {
+                           "key":  "CowStallType",
+                           "name":  "Kuhstall",
+                           "shortName":  "COW"
+                       },
+                       {
+                           "key":  "PigStallType",
+                           "name":  "Schweinestall",
+                           "shortName":  "PIG"
+                       },
+                       {
+                           "key":  "HenStallType",
+                           "name":  "Hühnerstall",
+                           "shortName":  "HEN"
+                       },
+                       {
+                           "key":  "HorseStallType",
+                           "name":  "Pferdestall",
+                           "shortName":  "HRS"
+                       },
+                       {
+                           "key":  "SheepStallType",
+                           "name":  "Schafstall",
+                           "shortName":  "SHP"
+                       },
+                       {
+                           "key":  "GoatStallType",
+                           "name":  "Ziegenstall",
+                           "shortName":  "GOT"
+                       },
+                       {
+                           "key":  "GeneralStallType",
+                           "name":  "Allgemein",
+                           "shortName":  "GEN"
+                       }
+                   ],
+    "animalTypes":  [
+                        {
+                            "key":  "CowAnimalType",
+                            "name":  "Rind",
+                            "shortName":  "COW"
+                        },
+                        {
+                            "key":  "PigAnimalType",
+                            "name":  "Schwein",
+                            "shortName":  "PIG"
+                        },
+                        {
+                            "key":  "HenAnimalType",
+                            "name":  "Huhn",
+                            "shortName":  "HEN"
+                        },
+                        {
+                            "key":  "HorseAnimalType",
+                            "name":  "Pferd",
+                            "shortName":  "HRS"
+                        },
+                        {
+                            "key":  "SheepAnimalType",
+                            "name":  "Schaf",
+                            "shortName":  "SHP"
+                        },
+                        {
+                            "key":  "GoatAnimalType",
+                            "name":  "Ziege",
+                            "shortName":  "GOT"
+                        },
+                        {
+                            "key":  "DuckAnimalType",
+                            "name":  "Ente",
+                            "shortName":  "DUC"
+                        },
+                        {
+                            "key":  "RabbitAnimalType",
+                            "name":  "Kaninchen",
+                            "shortName":  "RAB"
+                        }
+                    ],
+    "machineModels":  [
+                          {
+                              "key":  "JD_TRC_5R90",
+                              "name":  "5R 90",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_5R100",
+                              "name":  "5R 100",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_5R110",
+                              "name":  "5R 110",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_5R120",
+                              "name":  "5R 120",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_5R130",
+                              "name":  "5R 130",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6M120",
+                              "name":  "6M 120",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6M140",
+                              "name":  "6M 140",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6M165",
+                              "name":  "6M 165",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R110",
+                              "name":  "6R 110",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R130",
+                              "name":  "6R 130",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R150",
+                              "name":  "6R 150",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R155",
+                              "name":  "6R 155",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R175",
+                              "name":  "6R 175",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R195",
+                              "name":  "6R 195",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R215",
+                              "name":  "6R 215",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_6R230",
+                              "name":  "6R 230",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_7R270",
+                              "name":  "7R 270",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_7R290",
+                              "name":  "7R 290",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_7R310",
+                              "name":  "7R 310",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_7R330",
+                              "name":  "7R 330",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_8R310",
+                              "name":  "8R 310",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_8R340",
+                              "name":  "8R 340",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_TRC_8R370",
+                              "name":  "8R 370",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "JD_CMB_T560",
+                              "name":  "T560",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "JD_CMB_T670",
+                              "name":  "T670",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "JD_CMB_S770",
+                              "name":  "S770",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "JD_CMB_S780",
+                              "name":  "S780",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "JD_CMB_S790",
+                              "name":  "S790",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "JD_CMB_W540",
+                              "name":  "W540",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "JD_CMB_W550",
+                              "name":  "W550",
+                              "brandShortName":  "JD",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION410",
+                              "name":  "Arion 410",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION420",
+                              "name":  "Arion 420",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION430",
+                              "name":  "Arion 430",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION440",
+                              "name":  "Arion 440",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION510",
+                              "name":  "Arion 510",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION520",
+                              "name":  "Arion 520",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION530",
+                              "name":  "Arion 530",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION540",
+                              "name":  "Arion 540",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION550",
+                              "name":  "Arion 550",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION610",
+                              "name":  "Arion 610",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION620",
+                              "name":  "Arion 620",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION630",
+                              "name":  "Arion 630",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION640",
+                              "name":  "Arion 640",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_ARION650",
+                              "name":  "Arion 650",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION810",
+                              "name":  "Axion 810",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION820",
+                              "name":  "Axion 820",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION830",
+                              "name":  "Axion 830",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION840",
+                              "name":  "Axion 840",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION850",
+                              "name":  "Axion 850",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION870",
+                              "name":  "Axion 870",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION900",
+                              "name":  "Axion 900",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION920",
+                              "name":  "Axion 920",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION940",
+                              "name":  "Axion 940",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_TRC_AXION960",
+                              "name":  "Axion 960",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION5300",
+                              "name":  "Lexion 5300",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION6600",
+                              "name":  "Lexion 6600",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION6700",
+                              "name":  "Lexion 6700",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION7500",
+                              "name":  "Lexion 7500",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION7600",
+                              "name":  "Lexion 7600",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION7700",
+                              "name":  "Lexion 7700",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION8700",
+                              "name":  "Lexion 8700",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION8800",
+                              "name":  "Lexion 8800",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_LEXION8900",
+                              "name":  "Lexion 8900",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_TRION520",
+                              "name":  "Trion 520",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_TRION620",
+                              "name":  "Trion 620",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_TRION720",
+                              "name":  "Trion 720",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CLS_CMB_TRION750",
+                              "name":  "Trion 750",
+                              "brandShortName":  "CLS",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "FDT_TRC_210V",
+                              "name":  "210 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_211V",
+                              "name":  "211 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_212V",
+                              "name":  "212 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_310V",
+                              "name":  "310 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_311V",
+                              "name":  "311 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_312V",
+                              "name":  "312 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_313V",
+                              "name":  "313 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_314V",
+                              "name":  "314 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_516V",
+                              "name":  "516 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_518V",
+                              "name":  "518 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_720V",
+                              "name":  "720 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_722V",
+                              "name":  "722 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_724V",
+                              "name":  "724 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_728V",
+                              "name":  "728 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_930V",
+                              "name":  "930 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_933V",
+                              "name":  "933 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_936V",
+                              "name":  "936 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_939V",
+                              "name":  "939 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_942V",
+                              "name":  "942 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_1050V",
+                              "name":  "1050 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_TRC_1058V",
+                              "name":  "1058 Vario",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "FDT_CMB_5180L",
+                              "name":  "5180 L",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "FDT_CMB_6335C",
+                              "name":  "6335 C",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "FDT_CMB_8410C",
+                              "name":  "8410 C",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "FDT_CMB_9490X",
+                              "name":  "9490 X",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "FDT_CMB_10465MT",
+                              "name":  "10465 MT",
+                              "brandShortName":  "FDT",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "NH_TRC_T475",
+                              "name":  "T4.75",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T495",
+                              "name":  "T4.95",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T4110",
+                              "name":  "T4.110",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T5100",
+                              "name":  "T5.100",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T5110",
+                              "name":  "T5.110",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T5120",
+                              "name":  "T5.120",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T5130",
+                              "name":  "T5.130",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T6120",
+                              "name":  "T6.120",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T6140",
+                              "name":  "T6.140",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T6155",
+                              "name":  "T6.155",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T6160",
+                              "name":  "T6.160",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T6175",
+                              "name":  "T6.175",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T6180",
+                              "name":  "T6.180",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T7185",
+                              "name":  "T7.185",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T7200",
+                              "name":  "T7.200",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T7210",
+                              "name":  "T7.210",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T7225",
+                              "name":  "T7.225",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T7245",
+                              "name":  "T7.245",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T8320",
+                              "name":  "T8.320",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_TRC_T8380",
+                              "name":  "T8.380",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "NH_CMB_CR580",
+                              "name":  "CR5.80",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "NH_CMB_CR690",
+                              "name":  "CR6.90",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "NH_CMB_CR790",
+                              "name":  "CR7.90",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "NH_CMB_CR890",
+                              "name":  "CR8.90",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "NH_CMB_CR990",
+                              "name":  "CR9.90",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "NH_CMB_CR1090",
+                              "name":  "CR10.90",
+                              "brandShortName":  "NH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "MF_TRC_4708",
+                              "name":  "MF 4708",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_4709",
+                              "name":  "MF 4709",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_4710",
+                              "name":  "MF 4710",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_5712",
+                              "name":  "MF 5712",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_5713",
+                              "name":  "MF 5713",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_6714",
+                              "name":  "MF 6714",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_6715",
+                              "name":  "MF 6715",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_6718",
+                              "name":  "MF 6718",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_6720",
+                              "name":  "MF 6720",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_7719",
+                              "name":  "MF 7719",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_7720",
+                              "name":  "MF 7720",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_7722",
+                              "name":  "MF 7722",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_7724",
+                              "name":  "MF 7724",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_8727",
+                              "name":  "MF 8727",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_8730",
+                              "name":  "MF 8730",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_8732",
+                              "name":  "MF 8732",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_TRC_8735",
+                              "name":  "MF 8735",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "MF_CMB_IDEAL7",
+                              "name":  "MF IDEAL 7",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "MF_CMB_IDEAL8",
+                              "name":  "MF IDEAL 8",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "MF_CMB_IDEAL9",
+                              "name":  "MF IDEAL 9",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "MF_CMB_IDEAL10",
+                              "name":  "MF IDEAL 10",
+                              "brandShortName":  "MF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "DAF_TRC_5090D",
+                              "name":  "5090 D",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_5110D",
+                              "name":  "5110 D",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6130",
+                              "name":  "6130",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6140",
+                              "name":  "6140",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6150",
+                              "name":  "6150",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6160",
+                              "name":  "6160",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6175",
+                              "name":  "6175",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6185",
+                              "name":  "6185",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_6195",
+                              "name":  "6195",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_7250TTV",
+                              "name":  "7250 TTV",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_7260TTV",
+                              "name":  "7260 TTV",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_8280TTV",
+                              "name":  "8280 TTV",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_TRC_9310TTV",
+                              "name":  "9310 TTV",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "DAF_CMB_C6206",
+                              "name":  "C6206",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "DAF_CMB_C7206",
+                              "name":  "C7206",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "DAF_CMB_C7306",
+                              "name":  "C7306",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "DAF_CMB_C9306",
+                              "name":  "C9306",
+                              "brandShortName":  "DAF",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "STY_TRC_EXPERT4110",
+                              "name":  "Expert 4110",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_EXPERT4120",
+                              "name":  "Expert 4120",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_EXPERT4130",
+                              "name":  "Expert 4130",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_MULTI4085",
+                              "name":  "Multi 4085",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_MULTI4095",
+                              "name":  "Multi 4095",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_MULTI4105",
+                              "name":  "Multi 4105",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_PROFI4110CVT",
+                              "name":  "Profi 4110 CVT",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_PROFI4130CVT",
+                              "name":  "Profi 4130 CVT",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_TERRUS6230",
+                              "name":  "Terrus CVT 6230",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "STY_TRC_TERRUS6240",
+                              "name":  "Terrus CVT 6240",
+                              "brandShortName":  "STY",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_FARMALL100A",
+                              "name":  "Farmall 100 A",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_FARMALL110A",
+                              "name":  "Farmall 110 A",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_FARMALL115A",
+                              "name":  "Farmall 115 A",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_MAXXUM110",
+                              "name":  "Maxxum 110",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_MAXXUM120",
+                              "name":  "Maxxum 120",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_MAXXUM130",
+                              "name":  "Maxxum 130",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_MAXXUM145",
+                              "name":  "Maxxum 145",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_OPTUM270CVX",
+                              "name":  "Optum 270 CVX",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_OPTUM300CVX",
+                              "name":  "Optum 300 CVX",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_MAGNUM280",
+                              "name":  "Magnum 280",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_TRC_MAGNUM340",
+                              "name":  "Magnum 340",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "CSH_CMB_AF5150",
+                              "name":  "Axial-Flow 5150",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CSH_CMB_AF6150",
+                              "name":  "Axial-Flow 6150",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CSH_CMB_AF7150",
+                              "name":  "Axial-Flow 7150",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CSH_CMB_AF8150",
+                              "name":  "Axial-Flow 8150",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "CSH_CMB_AF9150",
+                              "name":  "Axial-Flow 9150",
+                              "brandShortName":  "CSH",
+                              "typeShortName":  "CMB"
+                          },
+                          {
+                              "key":  "VLT_TRC_N104",
+                              "name":  "N104",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_N134",
+                              "name":  "N134",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_N154",
+                              "name":  "N154",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_N174",
+                              "name":  "N174",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_Q205",
+                              "name":  "Q205",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_Q265",
+                              "name":  "Q265",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_T174",
+                              "name":  "T174",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_T214",
+                              "name":  "T214",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "VLT_TRC_T234",
+                              "name":  "T234",
+                              "brandShortName":  "VLT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M5091",
+                              "name":  "M5091",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M5101",
+                              "name":  "M5101",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M6122",
+                              "name":  "M6122",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M6142",
+                              "name":  "M6142",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M7131",
+                              "name":  "M7131",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M7151",
+                              "name":  "M7151",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "KBT_TRC_M7172",
+                              "name":  "M7172",
+                              "brandShortName":  "KBT",
+                              "typeShortName":  "TRC"
+                          },
+                          {
+                              "key":  "OTH_SPR_LEEB4GS",
+                              "name":  "Leeb 4 GS",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_LEEB6GS",
+                              "name":  "Leeb 6 GS",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_LEEB8GS",
+                              "name":  "Leeb 8 GS",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_LEEB12GS",
+                              "name":  "Leeb 12 GS",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_UX5200",
+                              "name":  "Amazone UX 5200",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_UX6200",
+                              "name":  "Amazone UX 6200",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_PANTERA4502",
+                              "name":  "Amazone Pantera 4502",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SPR_SIRIUS10",
+                              "name":  "Lemken Sirius 10",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SPR"
+                          },
+                          {
+                              "key":  "OTH_SWR_MAESTRO875",
+                              "name":  "Horsch Maestro 8.75 SW",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SWR"
+                          },
+                          {
+                              "key":  "OTH_SWR_MAESTRO1275",
+                              "name":  "Horsch Maestro 12.75 SW",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SWR"
+                          },
+                          {
+                              "key":  "OTH_SWR_AVATAR310",
+                              "name":  "Horsch Avatar 3.10 SD",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SWR"
+                          },
+                          {
+                              "key":  "OTH_SWR_D93000",
+                              "name":  "Amazone D9 3000 Super",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SWR"
+                          },
+                          {
+                              "key":  "OTH_SWR_EDX6000",
+                              "name":  "Amazone EDX 6000-2C",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SWR"
+                          },
+                          {
+                              "key":  "OTH_SWR_SAPHIR10",
+                              "name":  "Lemken Saphir 10",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "SWR"
+                          },
+                          {
+                              "key":  "OTH_FTS_ZATS3200",
+                              "name":  "Amazone ZA-TS 3200",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "FTS"
+                          },
+                          {
+                              "key":  "OTH_FTS_ZATS4200",
+                              "name":  "Amazone ZA-TS 4200",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "FTS"
+                          },
+                          {
+                              "key":  "OTH_FTS_AXIS302",
+                              "name":  "Rauch AXIS 30.2 EMC+W",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "FTS"
+                          },
+                          {
+                              "key":  "OTH_FTS_AXIS402",
+                              "name":  "Rauch AXIS 40.2 EMC+W",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "FTS"
+                          },
+                          {
+                              "key":  "OTH_FTS_BOGBALLE_E2",
+                              "name":  "Bogballe E2 Plus",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "FTS"
+                          },
+                          {
+                              "key":  "OTH_FTS_BOGBALLE_L2",
+                              "name":  "Bogballe L2 Plus",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "FTS"
+                          },
+                          {
+                              "key":  "OTH_PLW_JUWEL8",
+                              "name":  "Lemken Juwel 8",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "PLW"
+                          },
+                          {
+                              "key":  "OTH_PLW_JUWEL9",
+                              "name":  "Lemken Juwel 9",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "PLW"
+                          },
+                          {
+                              "key":  "OTH_PLW_DIAMANT11",
+                              "name":  "Lemken Diamant 11",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "PLW"
+                          },
+                          {
+                              "key":  "OTH_PLW_SERVO6",
+                              "name":  "Pöttinger SERVO 6",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "PLW"
+                          },
+                          {
+                              "key":  "OTH_PLW_SERVO65M",
+                              "name":  "Pöttinger SERVO 65 M",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "PLW"
+                          },
+                          {
+                              "key":  "OTH_PLW_KV2500S",
+                              "name":  "Kverneland 2500 S",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "PLW"
+                          },
+                          {
+                              "key":  "OTH_DSC_HELIODOR9",
+                              "name":  "Lemken Heliodor 9",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "DSC"
+                          },
+                          {
+                              "key":  "OTH_DSC_JOKER10RT",
+                              "name":  "Horsch Joker 10 RT",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "DSC"
+                          },
+                          {
+                              "key":  "OTH_DSC_JOKER12RT",
+                              "name":  "Horsch Joker 12 RT",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "DSC"
+                          },
+                          {
+                              "key":  "OTH_DSC_TERRANO4FX",
+                              "name":  "Horsch Terrano 4 FX",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "DSC"
+                          },
+                          {
+                              "key":  "OTH_DSC_TRIO300",
+                              "name":  "Köckerling Trio 300",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "DSC"
+                          },
+                          {
+                              "key":  "OTH_TRL_FLIEGL271",
+                              "name":  "Fliegl ASW 271",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "TRL"
+                          },
+                          {
+                              "key":  "OTH_TRL_FLIEGL361",
+                              "name":  "Fliegl ASW 361",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "TRL"
+                          },
+                          {
+                              "key":  "OTH_TRL_KRAMPE358",
+                              "name":  "Krampe HKD 358",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "TRL"
+                          },
+                          {
+                              "key":  "OTH_TRL_KRAMPE750",
+                              "name":  "Krampe Bandit 750",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "TRL"
+                          },
+                          {
+                              "key":  "OTH_TRL_HAWE5000",
+                              "name":  "Hawe ULW 5000",
+                              "brandShortName":  "OTH",
+                              "typeShortName":  "TRL"
+                          }
+                      ]
+}

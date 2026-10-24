@@ -28,6 +28,10 @@ namespace AGM_API.Controllers.Season
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetSeasonFieldInfo>>> GetSeasonFields(long seasonId)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(seasonId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var season = await _context.Seasons.FindAsync(seasonId);
             if (season == null)
                 return NotFound("Season not found");
@@ -55,6 +59,10 @@ namespace AGM_API.Controllers.Season
         [HttpGet("{fieldId}")]
         public async Task<ActionResult<GetSeasonFieldInfo>> GetSeasonField(long seasonId, long fieldId)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(seasonId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var seasonField = await _context.SeasonFields
                 .AsNoTracking()
                 .Include(sf => sf.Field)
@@ -79,6 +87,10 @@ namespace AGM_API.Controllers.Season
         [HttpPut("{fieldId}")]
         public async Task<ActionResult> UpdateSeasonField(long seasonId, long fieldId, [FromBody] UpdateSeasonField dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(seasonId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var seasonField = await _context.SeasonFields
                 .FirstOrDefaultAsync(sf => sf.season_Id == seasonId && sf.field_Id == fieldId);
 
@@ -136,6 +148,10 @@ namespace AGM_API.Controllers.Season
         [HttpPost]
         public async Task<ActionResult> AddFieldToSeason(long seasonId, [FromBody] AddFieldToSeason dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(seasonId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var season = await _context.Seasons
                 .Include(s => s.Farm)
                 .FirstOrDefaultAsync(s => s.Id == seasonId);
@@ -143,7 +159,7 @@ namespace AGM_API.Controllers.Season
                 return NotFound("Season not found");
 
             var field = await _context.Fields.FindAsync(dto.FieldId);
-            if (field == null)
+            if (field == null || field.FarmId != guardFarmId.Value)
                 return BadRequest("Field not found");
 
             var existing = await _context.SeasonFields

@@ -1,4 +1,5 @@
 using AGM_API.Database;
+using AGM_API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +13,16 @@ namespace AGM_API.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly AccountDeletionService _accountDeletion;
+        private readonly KeycloakAdminService _keycloakAdmin;
+        private readonly ILogger<ProfileController> _logger;
 
-        public ProfileController(AppDbContext context)
+        public ProfileController(AppDbContext context, AccountDeletionService accountDeletion, KeycloakAdminService keycloakAdmin, ILogger<ProfileController> logger)
         {
             _context = context;
+            _accountDeletion = accountDeletion;
+            _keycloakAdmin = keycloakAdmin;
+            _logger = logger;
         }
 
         public record ProfileInfo(long Id, string Username, string? Email, string? UserCode, string? FirstName, string LastName);
@@ -60,6 +67,33 @@ namespace AGM_API.Controllers
             }
 
             await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Löscht das eigene Konto endgültig (Apple Guideline 5.1.1(v)):
+        /// zuerst das Login-Konto in Keycloak, dann die lokalen Daten (siehe AccountDeletionService).
+        /// </summary>
+        [HttpDelete("me")]
+        public async Task<IActionResult> DeleteMe()
+        {
+            var userId = User.GetUserId();
+            var subject = await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Id == userId)
+                .Select(u => u.KeycloakSubject)
+                .FirstOrDefaultAsync();
+
+            if (!string.IsNullOrEmpty(subject))
+            {
+                var result = await _keycloakAdmin.DeleteUserAsync(subject);
+                if (result == KeycloakDeleteResult.Failed)
+                    return StatusCode(StatusCodes.Status502BadGateway, "Could not delete the login account. Please try again later.");
+                if (result == KeycloakDeleteResult.NotConfigured)
+                    _logger.LogWarning("Deleting user {UserId} locally only — Keycloak admin client is not configured.", userId);
+            }
+
+            if (!await _accountDeletion.DeleteAsync(userId)) return NotFound();
             return NoContent();
         }
     }

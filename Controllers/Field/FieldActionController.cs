@@ -16,12 +16,14 @@ namespace AGM_API.Controllers.Field
         private readonly AppDbContext _context;
         private readonly FarmAuthorizationService _auth;
         private readonly ActivityLogService _activity;
+        private readonly FileStorageService _storage;
 
-        public FieldActionController(AppDbContext context, FarmAuthorizationService auth, ActivityLogService activity)
+        public FieldActionController(AppDbContext context, FarmAuthorizationService auth, ActivityLogService activity, FileStorageService storage)
         {
             _context = context;
             _auth = auth;
             _activity = activity;
+            _storage = storage;
         }
 
         [HttpGet("types")]
@@ -163,7 +165,7 @@ namespace AGM_API.Controllers.Field
             };
 
             if (dto.MachineIds != null)
-                foreach (var machineId in dto.MachineIds)
+                foreach (var machineId in await _auth.FilterMachineIdsForFarmAsync(dto.MachineIds, farmId.Value))
                     action.Machines.Add(new Models.Field.FieldActionMachine { MachineId = machineId });
 
             _context.FieldActions.Add(action);
@@ -224,7 +226,7 @@ namespace AGM_API.Controllers.Field
             // Sync machines
             action.Machines.Clear();
             if (dto.MachineIds != null)
-                foreach (var machineId in dto.MachineIds)
+                foreach (var machineId in await _auth.FilterMachineIdsForFarmAsync(dto.MachineIds, farmId.Value))
                     action.Machines.Add(new Models.Field.FieldActionMachine { MachineId = machineId });
 
             var updActionType = await _context.FieldActionTypes.Where(t => t.Id == action.ActionTypeId).Select(t => t.Name).FirstOrDefaultAsync() ?? "";
@@ -276,19 +278,16 @@ namespace AGM_API.Controllers.Field
                 .OrderBy(p => p.CreatedAt)
                 .ToListAsync();
 
-            var request = HttpContext.Request;
-            var baseUrl = $"{request.Scheme}://{request.Host}";
-
             return Ok(photos.Select(p => new FieldActionPhotoInfo(
                 p.Id,
                 p.FileName,
-                $"{baseUrl}/uploads/fieldactions/{id}/{p.FileName}"
+                _storage.GetUrl($"fieldactions/{id}/{p.FileName}")!
             )));
         }
 
         [HttpPost("{id}/photos")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadPhoto(long id, IFormFile file, [FromServices] IWebHostEnvironment env)
+        public async Task<IActionResult> UploadPhoto(long id, IFormFile file)
         {
             var action = await _context.FieldActions.FindAsync(id);
             if (action == null) return NotFound();
@@ -300,21 +299,12 @@ namespace AGM_API.Controllers.Field
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 
-            if (file == null || file.Length == 0)
-                return BadRequest("No file provided");
+            var error = await FileStorageService.ValidateImageAsync(file);
+            if (error != null) return BadRequest(error);
 
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-            if (ext is not (".jpg" or ".jpeg" or ".png" or ".webp"))
-                return BadRequest("Unsupported file type");
-
-            var folder = Path.Combine(env.WebRootPath, "uploads", "fieldactions", id.ToString());
-            Directory.CreateDirectory(folder);
-
             var fileName = $"{Guid.NewGuid()}{ext}";
-            var filePath = Path.Combine(folder, fileName);
-
-            using (var stream = System.IO.File.Create(filePath))
-                await file.CopyToAsync(stream);
+            var relativePath = await _storage.SaveAsync(file, $"fieldactions/{id}", fileName);
 
             _context.FieldActionPhotos.Add(new FieldActionPhoto
             {
@@ -324,13 +314,11 @@ namespace AGM_API.Controllers.Field
             });
             await _context.SaveChangesAsync();
 
-            var request = HttpContext.Request;
-            var url = $"{request.Scheme}://{request.Host}/uploads/fieldactions/{id}/{fileName}";
-            return Ok(new FieldActionPhotoInfo(0, fileName, url));
+            return Ok(new FieldActionPhotoInfo(0, fileName, _storage.GetUrl(relativePath)!));
         }
 
         [HttpDelete("photos/{photoId}")]
-        public async Task<IActionResult> DeletePhoto(long photoId, [FromServices] IWebHostEnvironment env)
+        public async Task<IActionResult> DeletePhoto(long photoId)
         {
             var photo = await _context.FieldActionPhotos.FindAsync(photoId);
             if (photo == null) return NotFound();
@@ -342,10 +330,7 @@ namespace AGM_API.Controllers.Field
             if (!await _auth.CanWriteAsync(farmId.Value, userId))
                 return Forbid();
 
-            var filePath = Path.Combine(env.WebRootPath, "uploads", "fieldactions",
-                photo.FieldActionId.ToString(), photo.FileName);
-            if (System.IO.File.Exists(filePath))
-                System.IO.File.Delete(filePath);
+            _storage.Delete($"fieldactions/{photo.FieldActionId}/{photo.FileName}");
 
             _context.FieldActionPhotos.Remove(photo);
             await _context.SaveChangesAsync();

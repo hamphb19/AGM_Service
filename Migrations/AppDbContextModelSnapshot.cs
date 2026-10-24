@@ -736,6 +736,9 @@ namespace AGM_API.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<decimal?>("OperatingHours")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 

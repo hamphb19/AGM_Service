@@ -15,11 +15,13 @@ namespace AGM_API.Controllers.Farm
     {
         private readonly AppDbContext _context;
         private readonly FarmAuthorizationService _auth;
+        private readonly FileStorageService _storage;
 
-        public FarmController(AppDbContext context, FarmAuthorizationService auth)
+        public FarmController(AppDbContext context, FarmAuthorizationService auth, FileStorageService storage)
         {
             _context = context;
             _auth = auth;
+            _storage = storage;
         }
 
         [HttpGet("types")]
@@ -63,7 +65,7 @@ namespace AGM_API.Controllers.Farm
                 ))
                 .ToListAsync();
 
-            return Ok(new GetAllFarmsSimple(farms));
+            return Ok(new GetAllFarmsSimple(farms.Select(f => f with { LogoUrl = _storage.GetUrl(f.LogoUrl) }).ToList()));
         }
 
         [HttpGet("{id}")]
@@ -86,7 +88,7 @@ namespace AGM_API.Controllers.Farm
                 new OwnerOfTheFarm(farm.Id, farm.Owner?.FirstName, farm.Owner?.Name),
                 farm.FarmType?.ShortName, farm.FarmType?.Name,
                 farm.Street, farm.PostalCode, farm.City, farm.Country,
-                farm.Phone, farm.LogoUrl
+                farm.Phone, _storage.GetUrl(farm.LogoUrl)
             ));
         }
 
@@ -205,7 +207,7 @@ namespace AGM_API.Controllers.Farm
 
         [HttpPost("{id}/logo")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadLogo(long id, IFormFile file, [FromServices] IWebHostEnvironment env)
+        public async Task<IActionResult> UploadLogo(long id, IFormFile file)
         {
             var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (!await _auth.IsAdminAsync(id, userId)) return Forbid();
@@ -213,26 +215,16 @@ namespace AGM_API.Controllers.Farm
             var farm = await _context.Farms.FindAsync(id);
             if (farm == null) return NotFound();
 
-            if (file == null || file.Length == 0) return BadRequest("No file provided.");
+            var error = await FileStorageService.ValidateImageAsync(file);
+            if (error != null) return BadRequest(error);
 
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-            if (ext is not (".jpg" or ".jpeg" or ".png" or ".webp"))
-                return BadRequest("Unsupported file type.");
-
-            var folder = Path.Combine(env.WebRootPath, "uploads", "farms", id.ToString());
-            Directory.CreateDirectory(folder);
-
-            var fileName = $"logo{ext}";
-            var filePath = Path.Combine(folder, fileName);
-
-            using (var stream = System.IO.File.Create(filePath))
-                await file.CopyToAsync(stream);
-
-            var request = HttpContext.Request;
-            farm.LogoUrl = $"{request.Scheme}://{request.Host}/uploads/farms/{id}/{fileName}";
+            var oldLogo = farm.LogoUrl;
+            farm.LogoUrl = await _storage.SaveAsync(file, $"farms/{id}", $"logo-{Guid.NewGuid():N}{ext}");
             await _context.SaveChangesAsync();
+            _storage.Delete(oldLogo);
 
-            return Ok(new { logoUrl = farm.LogoUrl });
+            return Ok(new { logoUrl = _storage.GetUrl(farm.LogoUrl) });
         }
 
         [HttpDelete("{id}")]
@@ -244,8 +236,14 @@ namespace AGM_API.Controllers.Farm
             var farm = await _context.Farms.FindAsync(id);
             if (farm == null) return NotFound();
 
+            var actionIds = await _context.FieldActions
+                .Where(a => a.Field.FarmId == id).Select(a => a.Id).ToListAsync();
+
             _context.Farms.Remove(farm);
             await _context.SaveChangesAsync();
+
+            _storage.DeleteFolder($"farms/{id}");
+            foreach (var actionId in actionIds) _storage.DeleteFolder($"fieldactions/{actionId}");
             return NoContent();
         }
     }

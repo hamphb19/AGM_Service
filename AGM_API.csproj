@@ -10,7 +10,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Update="Services\KnownObjects\*.xml">
+		<None Update="Services\SeedData\*.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

@@ -21,6 +21,7 @@ namespace AGM_API.Models.Machine
         public string? LicensePlate { get; set; }
         public string? Notes { get; set; }
         public MachineStatus Status { get; set; } = MachineStatus.Available;
+        public decimal? OperatingHours { get; set; }
     }
 
     public enum MachineStatus

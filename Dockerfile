@@ -1,7 +1,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
-RUN mkdir -p /app/wwwroot/uploads && chmod -R 777 /app/wwwroot
+# Uploads liegen in /app/data/uploads. Auf Railway ein Volume auf /app/data mounten,
+# sonst gehen Fotos und Logos bei jedem Deploy verloren.
+RUN mkdir -p /app/data/uploads && chmod -R 777 /app/data
+ENV Uploads__Path=/app/data/uploads
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src

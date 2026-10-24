@@ -1,6 +1,7 @@
 ﻿using AGM_API.Controllers.Farm.Records;
 using AGM_API.Controllers.Records;
 using AGM_API.Database;
+using AGM_API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,23 @@ namespace AGM_API.Controllers.Season
     public class SeasonController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
 
-        public SeasonController(AppDbContext context)
+        public SeasonController(AppDbContext context, FarmAuthorizationService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetSeasonSimple>>> GetSeasons()
         {
+            var userFarmIds = await _auth.GetFarmIdsForUserAsync(User.GetUserId());
+
             var seasons = await _context.Seasons
                   .AsNoTracking()
                   .Include(s => s.Farm)
+                  .Where(s => userFarmIds.Contains(s.Farm.Id))
                   .OrderByDescending(s => s.StartDate)
                   .Select(s => new GetSeasonSimple(
                       s.Id,
@@ -42,6 +48,10 @@ namespace AGM_API.Controllers.Season
         [HttpGet("{id}")]
         public async Task<ActionResult<GetSeasonDetailed>> GetSeasonDetailed(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var season = await _context.Seasons
                   .AsNoTracking()
                   .Include(s => s.Farm)
@@ -86,6 +96,8 @@ namespace AGM_API.Controllers.Season
         [HttpGet("farm/{farmId}")]
         public async Task<ActionResult<IEnumerable<GetSeasonSimple>>> GetSeasonsByFarm(long farmId)
         {
+            if (!await _auth.IsMemberAsync(farmId, User.GetUserId())) return Forbid();
+
             var seasons = await _context.Seasons
                 .AsNoTracking()
                 .Include(s => s.Farm)
@@ -109,6 +121,8 @@ namespace AGM_API.Controllers.Season
         [HttpPost]
         public async Task<ActionResult> CreateSeason([FromBody] CreateSeason dto)
         {
+            if (!await _auth.CanWriteAsync(dto.FarmId, User.GetUserId())) return Forbid();
+
             if (string.IsNullOrWhiteSpace(dto.Name))
                 return BadRequest("Name is required");
 
@@ -141,6 +155,10 @@ namespace AGM_API.Controllers.Season
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSeason(long id, [FromBody] UpdateSeason dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var season = await _context.Seasons.FindAsync(id);
             if (season == null)
                 return NotFound();
@@ -157,6 +175,10 @@ namespace AGM_API.Controllers.Season
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSeason(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var season = await _context.Seasons.FindAsync(id);
             if (season == null)
                 return NotFound();

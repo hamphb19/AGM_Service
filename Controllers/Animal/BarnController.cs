@@ -1,4 +1,5 @@
 using AGM_API.Database;
+using AGM_API.Services;
 using AGM_API.Models.Animal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace AGM_API.Controllers.Animal
     public class BarnController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly FarmAuthorizationService _auth;
 
-        public BarnController(AppDbContext context)
+        public BarnController(AppDbContext context, FarmAuthorizationService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
         [HttpGet("types")]
@@ -43,6 +46,8 @@ namespace AGM_API.Controllers.Animal
         [HttpGet("farm/{farmId}")]
         public async Task<ActionResult<IEnumerable<StallInfo>>> GetStalls(long farmId)
         {
+            if (!await _auth.IsMemberAsync(farmId, User.GetUserId())) return Forbid();
+
             var stalls = await _context.Stalls
                 .AsNoTracking()
                 .Where(s => s.FarmId == farmId)
@@ -64,6 +69,8 @@ namespace AGM_API.Controllers.Animal
         [HttpPost("farm/{farmId}")]
         public async Task<IActionResult> CreateStall(long farmId, [FromBody] UpsertStall dto)
         {
+            if (!await _auth.CanWriteAsync(farmId, User.GetUserId())) return Forbid();
+
             var farm = await _context.Farms.FindAsync(farmId);
             if (farm == null) return NotFound("Farm not found");
 
@@ -85,6 +92,10 @@ namespace AGM_API.Controllers.Animal
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStall(long id, [FromBody] UpsertStall dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var stall = await _context.Stalls.FindAsync(id);
             if (stall == null) return NotFound();
 
@@ -102,6 +113,10 @@ namespace AGM_API.Controllers.Animal
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStall(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var stall = await _context.Stalls.FindAsync(id);
             if (stall == null) return NotFound();
             _context.Stalls.Remove(stall);
@@ -112,6 +127,10 @@ namespace AGM_API.Controllers.Animal
         [HttpPost("{stallId}/animals")]
         public async Task<IActionResult> AddAnimal(long stallId, [FromBody] UpsertStallAnimal dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAsync(stallId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var stall = await _context.Stalls.FindAsync(stallId);
             if (stall == null) return NotFound("Stall not found");
 
@@ -133,6 +152,10 @@ namespace AGM_API.Controllers.Animal
         [HttpPut("animals/{id}")]
         public async Task<IActionResult> UpdateAnimal(long id, [FromBody] UpsertStallAnimal dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAnimalAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var stallAnimal = await _context.StallAnimals.FindAsync(id);
             if (stallAnimal == null) return NotFound();
 
@@ -150,6 +173,10 @@ namespace AGM_API.Controllers.Animal
         [HttpDelete("animals/{id}")]
         public async Task<IActionResult> DeleteAnimal(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAnimalAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var stallAnimal = await _context.StallAnimals.FindAsync(id);
             if (stallAnimal == null) return NotFound();
             _context.StallAnimals.Remove(stallAnimal);
@@ -160,6 +187,10 @@ namespace AGM_API.Controllers.Animal
         [HttpGet("{stallId}/events")]
         public async Task<ActionResult<IEnumerable<StallEventInfo>>> GetEvents(long stallId)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAsync(stallId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.IsMemberAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var events = await _context.StallEvents
                 .AsNoTracking()
                 .Where(e => e.StallId == stallId)
@@ -181,6 +212,10 @@ namespace AGM_API.Controllers.Animal
         [HttpPost("{stallId}/events")]
         public async Task<IActionResult> CreateEvent(long stallId, [FromBody] CreateStallEvent dto)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallAsync(stallId);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var stall = await _context.Stalls.FindAsync(stallId);
             if (stall == null) return NotFound("Stall not found");
 
@@ -205,6 +240,10 @@ namespace AGM_API.Controllers.Animal
         [HttpDelete("events/{id}")]
         public async Task<IActionResult> DeleteEvent(long id)
         {
+            var guardFarmId = await _auth.GetFarmIdForStallEventAsync(id);
+            if (guardFarmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+
             var ev = await _context.StallEvents.FindAsync(id);
             if (ev == null) return NotFound();
             _context.StallEvents.Remove(ev);
