@@ -2,6 +2,7 @@
 
 namespace AGM_API.Controllers.Records
 {
+    public record UpsertSeasonRequest(string Name, string? ShortName, DateTime? StartDate, DateTime? EndDate);
     public record CreateSeason(string Name, string ShortName, DateTime StartDate, DateTime EndDate, long FarmId);
     public record UpdateSeason(string Name, string ShortName, DateTime StartDate, DateTime EndDate);
     public record GetSeasonSimple(long Id, string Name, string ShortName, DateTime StartDate, DateTime EndDate, FarmInfo Farm);

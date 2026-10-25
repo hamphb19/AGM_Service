@@ -41,7 +41,7 @@ namespace AGM_API.Controllers.Season
                 .Where(sf => sf.season_Id == seasonId)
                 .Include(sf => sf.Field)
                 .Include(sf => sf.Crop)
-                    .ThenInclude(c => c.CropType)
+                    .ThenInclude(c => c!.CropType)
                 .Select(sf => new GetSeasonFieldInfo(
                     sf.field_Id,
                     sf.Field!.Name,

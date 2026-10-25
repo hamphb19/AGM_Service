@@ -212,7 +212,7 @@ namespace AGM_API.Controllers.Task
             t.Name,
             t.Season != null ? new GetSeasonInfo(t.Season.Id, t.Season.Name) : null,
             t.Fields.Select(tf => new GetFieldInfo(tf.Field.Id, tf.Field.Name)).ToList(),
-            t.AssignedTo != null ? new GetPersonInfo(t.AssignedTo.Id, t.AssignedTo.FirstName + " " + t.AssignedTo.Name) : null,
+            t.AssignedTo != null ? new GetPersonInfo(t.AssignedTo.Id, t.AssignedTo.FirstName, t.AssignedTo.Name) : null,
             t.DueDate,
             t.Status,
             t.Priority

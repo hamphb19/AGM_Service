@@ -1,4 +1,4 @@
 ﻿namespace AGM_API.Controllers.Records
 {
-    public record GetPersonInfo(long Id, string Name);
+    public record GetPersonInfo(long Id, string? FirstName, string LastName);
 }

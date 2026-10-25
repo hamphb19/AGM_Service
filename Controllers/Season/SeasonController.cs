@@ -15,11 +15,13 @@ namespace AGM_API.Controllers.Season
     {
         private readonly AppDbContext _context;
         private readonly FarmAuthorizationService _auth;
+        private readonly ActivityLogService _activityLog;
 
-        public SeasonController(AppDbContext context, FarmAuthorizationService auth)
+        public SeasonController(AppDbContext context, FarmAuthorizationService auth, ActivityLogService activityLog)
         {
             _context = context;
             _auth = auth;
+            _activityLog = activityLog;
         }
 
         [HttpGet]
@@ -118,29 +120,35 @@ namespace AGM_API.Controllers.Season
             return Ok(seasons);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> CreateSeason([FromBody] CreateSeason dto)
+        [HttpPost("farm/{farmId}")]
+        public async Task<ActionResult> CreateSeason(long farmId, [FromBody] UpsertSeasonRequest dto)
         {
-            if (!await _auth.CanWriteAsync(dto.FarmId, User.GetUserId())) return Forbid();
+            if (!await _auth.CanWriteAsync(farmId, User.GetUserId())) return Forbid();
 
             if (string.IsNullOrWhiteSpace(dto.Name))
                 return BadRequest("Name is required");
 
-            var farm = await _context.Farms.FindAsync(dto.FarmId);
+            if (!dto.StartDate.HasValue)
+                return BadRequest("Start date is required");
+
+            var farm = await _context.Farms.FindAsync(farmId);
             if (farm == null)
-                return BadRequest("Farm not found");
+                return NotFound("Farm not found");
 
             var season = new Models.Season.Season
             {
                 Name = dto.Name.Trim(),
-                ShortName = dto.ShortName.Trim(),
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
+                ShortName = dto.ShortName?.Trim() ?? string.Empty,
+                StartDate = dto.StartDate.Value,
+                EndDate = dto.EndDate ?? DateTime.UtcNow.AddYears(1),
                 Farm = farm
             };
 
             _context.Seasons.Add(season);
             await _context.SaveChangesAsync();
+
+            await _activityLog.LogAsync(farmId, "Season", season.Id, "Created",
+                $"Season {season.Name} created");
 
             return CreatedAtAction(nameof(GetSeasonDetailed), new { id = season.Id }, new GetSeasonSimple(
                 season.Id,
@@ -153,38 +161,59 @@ namespace AGM_API.Controllers.Season
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateSeason(long id, [FromBody] UpdateSeason dto)
+        public async Task<ActionResult> UpdateSeason(long id, [FromBody] UpsertSeasonRequest dto)
         {
-            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(id);
-            if (guardFarmId == null) return NotFound();
-            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+            var farmId = await _auth.GetFarmIdForSeasonAsync(id);
+            if (farmId == null) return NotFound();
+            if (!await _auth.CanWriteAsync(farmId.Value, User.GetUserId())) return Forbid();
 
             var season = await _context.Seasons.FindAsync(id);
             if (season == null)
                 return NotFound();
 
+            if (string.IsNullOrWhiteSpace(dto.Name))
+                return BadRequest("Name is required");
+
             season.Name = dto.Name.Trim();
-            season.ShortName = dto.ShortName.Trim();
-            season.StartDate = dto.StartDate;
-            season.EndDate = dto.EndDate;
+            season.ShortName = dto.ShortName?.Trim() ?? season.ShortName;
+            if (dto.StartDate.HasValue)
+                season.StartDate = dto.StartDate.Value;
+            if (dto.EndDate.HasValue)
+                season.EndDate = dto.EndDate.Value;
 
             await _context.SaveChangesAsync();
+
+            await _activityLog.LogAsync(farmId.Value, "Season", season.Id, "Updated",
+                $"Season {season.Name} updated");
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSeason(long id)
         {
-            var guardFarmId = await _auth.GetFarmIdForSeasonAsync(id);
-            if (guardFarmId == null) return NotFound();
-            if (!await _auth.CanWriteAsync(guardFarmId.Value, User.GetUserId())) return Forbid();
+            var farmId = await _auth.GetFarmIdForSeasonAsync(id);
+            if (farmId == null) return NotFound();
+            if (!await _auth.IsAdminAsync(farmId.Value, User.GetUserId())) return Forbid();
 
-            var season = await _context.Seasons.FindAsync(id);
+            var season = await _context.Seasons
+                .Include(s => s.SeasonFields)
+                .Include(s => s.Tasks)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
             if (season == null)
                 return NotFound();
 
+            // Prevent deletion if season has associated data
+            if (season.SeasonFields.Any() || season.Tasks.Any())
+                return BadRequest("Cannot delete season with existing fields or tasks");
+
+            var seasonName = season.Name;
             _context.Seasons.Remove(season);
             await _context.SaveChangesAsync();
+
+            await _activityLog.LogAsync(farmId.Value, "Season", null, "Deleted",
+                $"Season {seasonName} deleted");
 
             return NoContent();
         }

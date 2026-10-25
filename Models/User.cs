@@ -17,6 +17,6 @@ namespace AGM_API.Models
         /// <summary>Keycloak subject (sub) claim — the external identity this user is linked to.</summary>
         public string? KeycloakSubject { get; set; }
         public bool IsAdmin { get; set; } = false;
-        public Person.Person Person { get; set; }
+        public Person.Person? Person { get; set; }
     }
 }

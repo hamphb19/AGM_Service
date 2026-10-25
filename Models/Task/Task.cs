@@ -10,7 +10,7 @@ namespace AGM_API.Models.Task
         [Key, Required]
         public long Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public long FarmId { get; set; }
         public Farm.Farm? Farm { get; set; }
         public Season.Season? Season { get; set; }

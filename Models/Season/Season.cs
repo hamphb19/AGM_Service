@@ -10,14 +10,14 @@ namespace AGM_API.Models.Season
         [Key, Required]
         public long Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
         [Required]
-        public string ShortName { get; set; }
+        public required string ShortName { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         [Required]
-        public Farm.Farm Farm { get; set; }
+        public required Farm.Farm Farm { get; set; }
 
         public ICollection<SeasonField> SeasonFields { get; set; } = new HashSet<SeasonField>();
         public ICollection<Task.Task> Tasks { get; set; } = new List<Task.Task>();
